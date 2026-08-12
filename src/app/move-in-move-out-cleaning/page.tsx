@@ -1,0 +1,526 @@
+import Link from "next/link";
+import LocalBusinessSchema from "@/components/LocalBusinessSchema";
+import ServiceSchema from "@/components/ServiceSchema";
+import ServiceAreas from "@/components/ServiceAreas";
+import AuthorBio from "@/components/AuthorBio";
+import SpecialOffers from "@/components/SpecialOffers";
+import ConversationalFAQ from "@/components/ConversationalFAQ";
+import { Home, CheckCircle, Users, Building, Clock, Shield, Star, ArrowRight, Sparkles, Key, Truck, Calendar, DollarSign } from "lucide-react";
+
+export const metadata = {
+  title: "Move-In & Move-Out Cleaning in Boca Raton, FL",
+  description:
+    "Looking for move-out cleaning services near you? Cleaning Boca Raton offers reliable, 5-star move-in and move-out cleaning to maximize deposit returns. Book now!",
+  alternates: { canonical: "https://cleaningbocaraton.com/move-in-move-out-cleaning" },
+  openGraph: {
+    title: "Move-In & Move-Out Cleaning in Boca Raton, FL",
+    description:
+      "Looking for move-out cleaning services near you? Cleaning Boca Raton offers reliable, 5-star move-in and move-out cleaning to maximize deposit returns. Book now!",
+    type: "website",
+    url: "https://cleaningbocaraton.com/move-in-move-out-cleaning",
+    images: [{ url: "https://cleaningbocaraton.com/boca-raton-residential-cleaning-2.webp", width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Move-In & Move-Out Cleaning in Boca Raton, FL",
+    description:
+      "Looking for move-out cleaning services near you? Cleaning Boca Raton offers reliable, 5-star move-in and move-out cleaning to maximize deposit returns. Book now!",
+  },
+};
+
+export default function MoveInMoveOutPage() {
+  const faqItems = [
+    {
+      question: "What’s included in move‑in and move‑out cleaning?",
+      answer: "Comprehensive cleaning of all rooms, appliances, fixtures, cabinets, baseboards, and high‑touch areas with sanitization to meet landlord and listing standards."
+    },
+    {
+      question: "Can you help maximize my security deposit return?",
+      answer: "Yes. Our detailed move‑out checklist targets areas landlords inspect most, helping protect your deposit when cleanliness is a condition of return."
+    },
+    {
+      question: "Do you coordinate timing with movers or property managers?",
+      answer: "We offer flexible scheduling and can coordinate access with property managers, leasing offices, or your moving timeline to reduce downtime."
+    },
+    {
+      question: "How do quotes and booking work?",
+      answer: "Request a transparent quote online or call (561) 000-0000. Pricing depends on size, condition, and any add‑ons like inside appliances or cabinets."
+    }
+  ];
+
+
+  const moveInSteps = [
+    {
+      icon: Key,
+      title: "Pre-Move Inspection",
+      description:
+        "We assess the property condition and create a customized cleaning checklist.",
+      color: "text-primary",
+    },
+    {
+      icon: Sparkles,
+      title: "Deep Sanitization",
+      description:
+        "Complete disinfection of all surfaces, appliances, and high-touch areas.",
+      color: "text-primary",
+    },
+    {
+      icon: CheckCircle,
+      title: "Final Walkthrough",
+      description:
+        "Quality inspection to ensure your new home is move-in ready.",
+      color: "text-primary",
+    },
+  ];
+
+  const moveOutSteps = [
+    {
+      icon: Home,
+      title: "Comprehensive Cleaning",
+      description:
+        "Deep clean all rooms, appliances, fixtures, and hidden areas.",
+      color: "text-primary",
+    },
+    {
+      icon: Shield,
+      title: "Damage Prevention",
+      description:
+        "Careful cleaning to avoid any damage that could affect your security deposit.",
+      color: "text-primary",
+    },
+    {
+      icon: Star,
+      title: "Deposit Protection",
+      description:
+        "Professional cleaning that meets landlord standards for full deposit return.",
+      color: "text-primary",
+    },
+  ];
+
+  const propertyOwnerBenefits = [
+    "Faster tenant turnover with move-in ready properties",
+    "Consistent cleaning standards across all units",
+    "Reduced vacancy time between tenants",
+    "Professional documentation for property records",
+    "Specialized Airbnb and VRBO cleaning protocols",
+  ];
+
+  const residentBenefits = [
+    "Stress-free moving experience with professional cleaning",
+    "Maximize security deposit return with thorough move-out cleaning",
+    "Start fresh in a sanitized, spotless new home",
+    "Save time and energy during your busy moving process",
+    "Flexible scheduling to accommodate your moving timeline",
+  ];
+
+  return (
+    <div className="pt-20 min-h-screen bg-gray-50">
+      <ServiceSchema
+        name="Move In & Move Out Cleaning Services"
+        serviceType="Move Out Cleaning"
+        description="Reliable, 5-star move-in and move-out cleaning to maximize deposit returns in Boca Raton, FL."
+        url="https://cleaningbocaraton.com/move-in-move-out-cleaning"
+        offers={[
+          { name: "Move Out Cleaning", price: "200.00" },
+          { name: "Move In/Out Discount", description: "$20 off your first move-in or move-out cleaning in Boca Raton." }
+        ]}
+      />
+      <script
+        id="move-in-move-out-cleaning-jsonld-howto"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'HowTo',
+            name: 'How to book move-in or move-out cleaning in Boca Raton, FL',
+            description: 'A quick checklist to schedule professional move-in or move-out cleaning with Cleaning Boca Raton.',
+            totalTime: 'PT5M',
+            supply: [
+              { '@type': 'HowToSupply', name: 'Property address and unit number' },
+              { '@type': 'HowToSupply', name: 'Preferred date and access details' },
+            ],
+            tool: [
+              { '@type': 'HowToTool', name: 'Online booking form' },
+              { '@type': 'HowToTool', name: 'Phone: (561) 000-0000' },
+            ],
+            step: [
+              {
+                '@type': 'HowToStep',
+                name: 'Open booking or request a quote',
+                url: 'https://cleaningbocaraton.com/booking',
+                text: 'Visit the booking page to choose move-in or move-out cleaning, or request a transparent quote if needed.',
+              },
+              {
+                '@type': 'HowToStep',
+                name: 'Choose date and timing',
+                text: 'Select your preferred service date and timing—coordinate with movers or property managers if needed.',
+              },
+              {
+                '@type': 'HowToStep',
+                name: 'Add scope and add-ons',
+                text: 'Include inside appliances, cabinets, or special instructions to match landlord or listing standards.',
+              },
+              {
+                '@type': 'HowToStep',
+                name: 'Confirm and prepare',
+                text: 'Submit your booking to receive confirmation and preparation tips for easy access on service day.',
+              },
+            ],
+          }),
+        }}
+      />
+      <LocalBusinessSchema id="https://cleaningbocaraton.com/move-in-move-out-cleaning#localbusiness" name="Cleaning Boca Raton - Move In & Move Out Cleaning" url="https://cleaningbocaraton.com/move-in-move-out-cleaning" />
+      {/* Hero Section */}
+      <section className="bg-primary text-white py-20">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto text-center">
+            <Truck className="w-16 h-16 mx-auto mb-4" />
+            <h1 data-cy="move-cleaning-title" className="text-4xl md:text-5xl font-bold mb-6">
+              Professional Move In & Move Out Cleaning Services in Boca Raton, FL
+            </h1>
+            <p className="text-xl md:text-2xl mb-8 text-white/80">
+              Stress-free transitions with our expert moving house cleaning service. Fast, comprehensive solutions for property owners and residents in Boca Raton and surrounding areas.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link href="/booking" className="bg-white text-primary px-8 py-3 rounded-lg font-semibold hover:bg-background transition-colors text-center">
+                Get Free Quote
+              </Link>
+              <a href="tel:321-236-0618" className="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-primary transition-colors text-center">
+                Call (561) 000-0000
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* AIO 'Direct Answer' Section */}
+      <section className="bg-white py-8 border-b border-gray-100">
+        <div className="container mx-auto px-4">
+          <div className="bg-background rounded-xl p-6 md:p-8 border border-border">
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">How much does move-out cleaning cost in Boca Raton, FL?</h2>
+            <div className="prose max-w-none text-gray-700">
+              <p className="text-lg leading-relaxed mb-4">
+                <strong>Cleaning Boca Raton</strong> provides 5-star <strong>move-out cleaning in Boca Raton, FL</strong> starting at <strong>$200</strong>. We work directly with Boca Raton property managers to ensure full deposit returns, targeting commonly missed areas like sticky cabinet tops and appliance interiors. Our 6+ hour checklist is guaranteed for inspection approval.
+              </p>
+              <ul className="grid sm:grid-cols-2 gap-2 list-none pl-0">
+                <li className="flex items-center"><CheckCircle className="w-5 h-5 text-primary mr-2" /> <strong>Apartments:</strong> Starting at $200 (ideal for apartment move out cleaning)</li>
+                <li className="flex items-center"><CheckCircle className="w-5 h-5 text-primary mr-2" /> <strong>Single Family Homes:</strong> Starting at $300</li>
+                <li className="flex items-center"><CheckCircle className="w-5 h-5 text-primary mr-2" /> <strong>Includes:</strong> Inside Cabinets & Appliances</li>
+                <li className="flex items-center"><CheckCircle className="w-5 h-5 text-primary mr-2" /> <strong>Guarantee:</strong> Re-clean if not approved</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Expert Field Notes Section */}
+      <section className="py-12 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto">
+            <div className="flex items-center mb-6">
+              <Shield className="w-8 h-8 text-primary mr-3" />
+              <h2 className="text-2xl font-bold text-gray-900">Expert Field Notes: Boca Raton Move-Out Inspections</h2>
+            </div>
+            <div className="grid md:grid-cols-3 gap-6">
+              <div className="bg-gray-50 p-6 rounded-xl border border-gray-100">
+                <h3 className="font-semibold text-gray-900 mb-2">Hidden Grease</h3>
+                <p className="text-sm text-gray-600">We inspect cabinet tops where cooking grease settles—a top deduction point for Boca Raton property managers.</p>
+              </div>
+              <div className="bg-gray-50 p-6 rounded-xl border border-gray-100">
+                <h3 className="font-semibold text-gray-900 mb-2">Behind Appliances</h3>
+                <p className="text-sm text-gray-600">We clean behind fridges and stoves where local pests hide to ensure you pass pest control inspections.</p>
+              </div>
+              <div className="bg-gray-50 p-6 rounded-xl border border-gray-100">
+                <h3 className="font-semibold text-gray-900 mb-2">Garage Sweep</h3>
+                <p className="text-sm text-gray-600">Included in all move-out cleans to remove leaves, webs, and bugs common in Florida carports.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* At a Glance Section (AEO Hook) */}
+      <section className="bg-white py-12 border-b border-gray-100">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <div className="p-4 bg-background rounded-xl border border-border text-center">
+              <Clock className="w-8 h-8 text-primary mx-auto mb-2" />
+              <div className="text-sm text-gray-500 font-medium uppercase tracking-wide">Duration</div>
+              <div className="font-bold text-gray-900">4 - 8 Hours</div>
+            </div>
+            <div className="p-4 bg-green-50 rounded-xl border border-green-100 text-center">
+              <DollarSign className="w-8 h-8 text-green-600 mx-auto mb-2" />
+              <div className="text-sm text-gray-500 font-medium uppercase tracking-wide">Starting Price</div>
+              <div className="font-bold text-gray-900">$200+</div>
+            </div>
+            <div className="p-4 bg-purple-50 rounded-xl border border-purple-100 text-center">
+              <Key className="w-8 h-8 text-purple-600 mx-auto mb-2" />
+              <div className="text-sm text-gray-500 font-medium uppercase tracking-wide">Best For</div>
+              <div className="font-bold text-gray-900">Deposit Return</div>
+            </div>
+            <div className="p-4 bg-orange-50 rounded-xl border border-orange-100 text-center">
+              <Shield className="w-8 h-8 text-orange-600 mx-auto mb-2" />
+              <div className="text-sm text-gray-500 font-medium uppercase tracking-wide">Guarantee</div>
+              <div className="font-bold text-gray-900">Inspection Ready</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <SpecialOffers />
+
+      {/* Trust Signals */}
+      <section className="py-16 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto">
+            <div className="grid md:grid-cols-4 gap-8 text-center">
+              <div className="bg-white rounded-lg p-6 shadow-sm">
+                <Shield className="w-12 h-12 text-primary mx-auto mb-4" />
+                <h4 className="font-bold text-gray-900 mb-2">Fully Insured</h4>
+                <p className="text-gray-600">Licensed and insured for your peace of mind</p>
+              </div>
+              <div className="bg-white rounded-lg p-6 shadow-sm">
+                <Star className="w-12 h-12 text-yellow-500 mx-auto mb-4" />
+                <h4 className="font-bold text-gray-900 mb-2">5-Star Rated</h4>
+                <p className="text-gray-600">Consistently rated 5 stars by satisfied customers</p>
+              </div>
+              <div className="bg-white rounded-lg p-6 shadow-sm">
+                <Clock className="w-12 h-12 text-green-600 mx-auto mb-4" />
+                <h4 className="font-bold text-gray-900 mb-2">Satisfaction Guarantee</h4>
+                <p className="text-gray-600">100% satisfaction guarantee on all services</p>
+              </div>
+              <div className="bg-white rounded-lg p-6 shadow-sm">
+                <Truck className="w-12 h-12 text-purple-600 mx-auto mb-4" />
+                <h4 className="font-bold text-gray-900 mb-2">Fast Booking</h4>
+                <p className="text-gray-600">Quick and easy online booking in just minutes</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Checklist Table */}
+      <section className="py-12 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">What's Included in a Move-Out Clean?</h2>
+            <div className="overflow-x-auto rounded-xl border border-gray-200 shadow-sm">
+              <table className="w-full text-left text-sm text-gray-600">
+                <thead className="bg-gray-50 text-xs uppercase text-gray-700 font-bold">
+                  <tr>
+                    <th className="px-6 py-4">Area</th>
+                    <th className="px-6 py-4">Tasks Included</th>
+                    <th className="px-6 py-4 text-center">Landlord Checked?</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-200 bg-white">
+                  <tr>
+                    <td className="px-6 py-4 font-medium text-gray-900">Kitchen</td>
+                    <td className="px-6 py-4">Clean inside/out of cabinets, appliances (if selected), counters, sinks.</td>
+                    <td className="px-6 py-4 text-center text-red-500 font-bold">YES (High Priority)</td>
+                  </tr>
+                  <tr>
+                    <td className="px-6 py-4 font-medium text-gray-900">Bathrooms</td>
+                    <td className="px-6 py-4">Scrub tubs, showers, toilets, vanities, mirrors, and tile/grout.</td>
+                    <td className="px-6 py-4 text-center text-red-500 font-bold">YES (High Priority)</td>
+                  </tr>
+                  <tr>
+                    <td className="px-6 py-4 font-medium text-gray-900">Floors</td>
+                    <td className="px-6 py-4">Vacuum carpets, sweep and mop hard floors.</td>
+                    <td className="px-6 py-4 text-center text-orange-500 font-semibold">Yes</td>
+                  </tr>
+                  <tr>
+                    <td className="px-6 py-4 font-medium text-gray-900">Baseboards & Doors</td>
+                    <td className="px-6 py-4">Hand-wiping baseboards, frames, and spot cleaning doors.</td>
+                    <td className="px-6 py-4 text-center text-orange-500 font-semibold">Yes</td>
+                  </tr>
+                  <tr>
+                    <td className="px-6 py-4 font-medium text-gray-900">Inside Appliances</td>
+                    <td className="px-6 py-4">Refrigerator and Oven deep clean (Add-ons available).</td>
+                    <td className="px-6 py-4 text-center text-red-500 font-bold">Varies</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Comprehensive Solutions Section */}
+      <section className="py-20 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto text-center mb-16">
+            <h2 data-cy="comprehensive-solutions-title" className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+              Comprehensive Cleaning Solutions for Rental Properties & Home Movers
+            </h2>
+            <p className="text-lg text-gray-600">
+              Whether you&apos;re a property owner preparing units for new tenants or a resident moving to a new home, our professional move in cleaning Boca Raton FL and move out cleaning Boca Raton FL services ensure a spotless transition every time.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-12">
+            {/* Move-In Cleaning */}
+            <div className="bg-background rounded-xl p-8 border border-border">
+              <div className="text-center mb-8">
+                <Home className="w-12 h-12 text-primary mx-auto mb-4" />
+                <h3 data-cy="move-in-process-title" className="text-2xl font-bold text-gray-900 mb-4">
+                  Our Move-In Cleaning Process
+                </h3>
+                <p className="text-gray-600">Start fresh in your new home with our comprehensive move-in cleaning services.</p>
+              </div>
+              <div className="space-y-6">
+                {moveInSteps.map((step) => (
+                  <div key={step.title} className="flex items-start space-x-4">
+                    <div className="flex-shrink-0 w-12 h-12 bg-white rounded-lg flex items-center justify-center">
+                      <step.icon className={`w-8 h-8 ${step.color}`} />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-gray-900 mb-2">{step.title}</h4>
+                      <p className="text-gray-600">{step.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Move-Out Cleaning */}
+            <div className="bg-green-50 rounded-xl p-8 border border-green-100">
+              <div className="text-center mb-8">
+                <Truck className="w-12 h-12 text-green-600 mx-auto mb-4" />
+                <h3 data-cy="move-out-process-title" className="text-2xl font-bold text-gray-900 mb-4">
+                  Our Move-Out Cleaning Process
+                </h3>
+                <p className="text-gray-600">Maximize your security deposit return with our thorough move-out cleaning.</p>
+              </div>
+              <div className="space-y-6">
+                {moveOutSteps.map((step) => (
+                  <div key={step.title} className="flex items-start space-x-4">
+                    <div className="flex-shrink-0 w-12 h-12 bg-white rounded-lg flex items-center justify-center">
+                      <step.icon className={`w-8 h-8 ${step.color}`} />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-gray-900 mb-2">{step.title}</h4>
+                      <p className="text-gray-600">{step.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Benefits & Audiences */}
+      <section className="py-16 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="grid md:grid-cols-2 gap-12">
+            <div className="bg-white rounded-xl border p-8">
+              <div className="flex items-center mb-4">
+                <Building className="w-6 h-6 text-primary mr-2" />
+                <h3 className="text-xl font-semibold text-gray-900">Benefits for Property Owners</h3>
+              </div>
+              <ul className="space-y-2 text-gray-700">
+                {propertyOwnerBenefits.map((b) => (
+                  <li key={b} className="flex items-start">
+                    <CheckCircle className="w-4 h-4 text-green-600 mr-2 mt-0.5" /> {b}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="bg-white rounded-xl border p-8">
+              <div className="flex items-center mb-4">
+                <Users className="w-6 h-6 text-green-600 mr-2" />
+                <h3 className="text-xl font-semibold text-gray-900">Benefits for Residents</h3>
+              </div>
+              <ul className="space-y-2 text-gray-700">
+                {residentBenefits.map((b) => (
+                  <li key={b} className="flex items-start">
+                    <CheckCircle className="w-4 h-4 text-green-600 mr-2 mt-0.5" /> {b}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* SEO Guide Content */}
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">Move-In and Move-Out Cleaning Guide</h2>
+            <p className="text-lg text-gray-700 mb-6">
+              Planning a move? Our <strong>move out cleaning services</strong> and <strong>moving house cleaning service</strong> options are designed to make your transition effortless. Whether you need
+              <strong> move out cleaning services near me</strong> for a quick turnover or a detailed <strong>move in cleaning service near me</strong> to start fresh, Cleaning Boca Raton delivers professional results that meet property manager and landlord standards.
+            </p>
+            <p className="text-gray-700 mb-4">
+              For renters, a thorough <strong>move out cleaning</strong> helps protect your security deposit. Homeowners and property managers rely on our <strong>move in and out cleaning services</strong> to prepare homes and apartments between occupants. We tailor each visit to the unique needs of your space and timeline.
+            </p>
+
+            <div className="grid md:grid-cols-2 gap-8 mt-8">
+              <div className="bg-gray-50 rounded-xl p-6 border border-gray-200">
+                <h3 className="text-xl font-semibold text-gray-900 mb-3">What&apos;s Included</h3>
+                <ul className="space-y-2 text-gray-700">
+                  <li className="flex items-start"><Sparkles className="w-4 h-4 text-primary mr-2 mt-0.5" /> Kitchen: appliances inside/out, cabinets, counters, sinks, and floors.</li>
+                  <li className="flex items-start"><Sparkles className="w-4 h-4 text-primary mr-2 mt-0.5" /> Bathrooms: tubs/showers, toilets, vanities, mirrors, tile, and fixtures.</li>
+                  <li className="flex items-start"><Sparkles className="w-4 h-4 text-primary mr-2 mt-0.5" /> Living areas: dusting, baseboards, windowsills, light switches, and floors.</li>
+                  <li className="flex items-start"><Sparkles className="w-4 h-4 text-primary mr-2 mt-0.5" /> Bedrooms: closets, doors, fan blades, and detailed vacuum/mop.</li>
+                </ul>
+              </div>
+            </div>
+
+            <div className="mt-10 bg-background border border-border rounded-xl p-6">
+              <p className="text-gray-700">
+                Ready to book move out cleaning in Boca Raton, FL? Click below to schedule your appointment in minutes.
+              </p>
+              <div className="mt-4 flex flex-col sm:flex-row gap-4">
+                <Link href="/booking" className="bg-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-primary inline-flex items-center">Book Move Cleaning <ArrowRight className="w-5 h-5 ml-2" /></Link>
+                <Link href="/free-custom-quote" className="border-2 border-primary text-primary px-6 py-3 rounded-lg font-semibold hover:bg-background inline-flex items-center">Get a Free Quote <Sparkles className="w-5 h-5 ml-2" /></Link>
+              </div>
+            </div>
+
+            {/* Hyper-Local Neighborhood Section */}
+            <div className="mt-16 pt-12 border-t border-gray-100">
+              <h2 className="text-3xl font-bold text-gray-900 mb-8">Move-Out Cleaning in Your Area</h2>
+              <div className="grid md:grid-cols-2 gap-8">
+                <div>
+                  <h3 className="text-xl font-semibold text-gray-900 mb-3">Rental Communities</h3>
+                  <p className="text-gray-600 mb-4">
+                    We work closely with property managers at major complexes near <strong>Seminole State College</strong> and along <strong>Mizner Park Blvd</strong>. We know the specific checklists required for full deposit returns in these communities.
+                  </p>
+                  <ul className="space-y-1 text-gray-700">
+                    <li className="flex items-start"><CheckCircle className="w-4 h-4 text-secondary mr-2 mt-1" /> Student Housing</li>
+                    <li className="flex items-start"><CheckCircle className="w-4 h-4 text-secondary mr-2 mt-1" /> Luxury Apartments</li>
+                    <li className="flex items-start"><CheckCircle className="w-4 h-4 text-secondary mr-2 mt-1" /> Townhome Rentals</li>
+                  </ul>
+                </div>
+                <div>
+                  <h3 className="text-xl font-semibold text-gray-900 mb-3">Home Sales & Closings</h3>
+                  <p className="text-gray-600 mb-4">
+                    Selling a home in <strong>Mizner Park</strong> or the <strong>Historic District</strong>? Our move-out cleans ensure your property shines for open houses and passes the final walkthrough inspection seamlessly.
+                  </p>
+                  <ul className="space-y-1 text-gray-700">
+                    <li className="flex items-start"><CheckCircle className="w-4 h-4 text-secondary mr-2 mt-1" /> Pre-Listing Clean</li>
+                    <li className="flex items-start"><CheckCircle className="w-4 h-4 text-secondary mr-2 mt-1" /> Closing Day Clean</li>
+                    <li className="flex items-start"><CheckCircle className="w-4 h-4 text-secondary mr-2 mt-1" /> Open House Prep</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <ConversationalFAQ
+              title="Frequently Asked Questions: Move-In/Move-Out"
+              items={faqItems}
+              className="mt-16 bg-transparent border-t border-gray-100"
+            />
+
+            <AuthorBio />
+          </div>
+        </div>
+      </section>
+
+      {/* Service Areas */}
+      <ServiceAreas />
+    </div>
+  );
+}

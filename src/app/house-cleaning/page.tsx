@@ -1,0 +1,512 @@
+import LocalBusinessSchema from '@/components/LocalBusinessSchema';
+import Link from 'next/link';
+import Image from 'next/image';
+import AuthorBio from '@/components/AuthorBio';
+import SpecialOffers from '@/components/SpecialOffers';
+import { Home as HomeIcon, Clock, CheckCircle, ArrowRight, Zap, Shield, Sparkles } from 'lucide-react';
+import { siteFacts } from '@/lib/siteFacts';
+
+export const metadata = {
+  title: 'House Cleaning in Boca Raton, FL | Cleaning Boca Raton',
+  description:
+    `House cleaning in Boca Raton, FL. ${siteFacts.pricing.messages.entryAndTypical} Get a free quote online.`,
+  alternates: { canonical: 'https://cleaningbocaraton.com/house-cleaning' },
+  openGraph: {
+    title: 'House Cleaning in Boca Raton, FL | Cleaning Boca Raton',
+    description:
+      `Professional Boca Raton house cleaning. ${siteFacts.pricing.messages.entryAndTypical} Get a free quote online.`,
+    type: 'website',
+    url: 'https://cleaningbocaraton.com/house-cleaning',
+    images: [{ url: 'https://cleaningbocaraton.com/boca-raton-residential-cleaning.webp', width: 1200, height: 630 }],
+  },
+};
+
+export default function ResidentialCleaningPage() {
+  const jsonLdBreadcrumb = `{
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://cleaningbocaraton.com"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "House Cleaning",
+        "item": "https://cleaningbocaraton.com/house-cleaning"
+      }
+    ]
+  }`;
+
+  const serviceSchema = `{
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "serviceType": "House Cleaning",
+    "provider": {
+      "@type": "LocalBusiness",
+      "name": "Cleaning Boca Raton",
+      "image": "https://cleaningbocaraton.com/boca-raton-residential-cleaning.webp",
+      "priceRange": "$$"
+    },
+    "areaServed": {
+      "@type": "City",
+      "name": "Boca Raton, FL"
+    },
+          "hasOfferCatalog": {
+            "@type": "OfferCatalog",
+            "name": "House Cleaning Services",
+            "itemListElement": [
+              {
+                "@type": "Offer",
+                "itemOffered": {
+                  "@type": "Service",
+                  "name": "Regular House Cleaning"
+                },
+                "priceSpecification": {
+                  "@type": "UnitPriceSpecification",
+                  "price": "${siteFacts.pricing.entryStartingFrom}.00",
+                  "priceCurrency": "USD",
+                  "unitText": "entry-level job",
+                  "description": "${siteFacts.pricing.messages.entryAndTypical}"
+                }
+              },
+              {
+                "@type": "Offer",
+                "itemOffered": {
+                  "@type": "Service",
+                  "name": "New Customer Discount"
+                },
+                "description": "$10 off your first cleaning service in Boca Raton."
+              }
+            ]
+          }
+  }`;
+
+  const services = [
+    {
+      name: 'Regular House Cleaning',
+      description: 'Weekly or bi-weekly cleaning to maintain your house',
+      price: siteFacts.pricing.messages.entryAndTypical,
+      duration: '2-4 hours',
+      includes: [
+        'Kitchen cleaning and sanitization',
+        'Bathroom deep clean',
+        'Dusting all surfaces',
+        'Vacuuming and mopping',
+        'Trash removal',
+        'Bed making',
+      ],
+    },
+    {
+      name: 'One-Time Cleaning',
+      description: 'Perfect for special occasions or seasonal cleaning',
+      price: 'Starting at $120',
+      duration: '3-5 hours',
+      includes: [
+        'Complete house cleaning',
+        'Inside appliance cleaning',
+        'Window sill cleaning',
+        'Baseboards and trim',
+        'Light fixture dusting',
+        'Cabinet front cleaning',
+      ],
+    },
+    {
+      name: 'Move-In/Move-Out',
+      description: 'Comprehensive cleaning for moving transitions',
+      price: 'Starting at $200',
+      duration: '4-6 hours',
+      includes: [
+        'Deep clean all rooms',
+        'Inside cabinets and drawers',
+        'Appliance interior cleaning',
+        'Wall spot cleaning',
+        'Floor deep cleaning',
+        'Final inspection',
+      ],
+    },
+  ];
+
+  const addOns = [
+    { name: 'Inside Oven Cleaning', price: '$25' },
+    { name: 'Inside Refrigerator', price: '$20' },
+    { name: 'Garage Cleaning', price: '$40' },
+    { name: 'Basement Cleaning', price: '$35' },
+    { name: 'Window Cleaning (Interior)', price: '$3 per window' },
+    { name: 'Laundry Service', price: '$15 per load' },
+  ];
+
+  const jsonLdFaq = `{
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How much does your house cleaning service cost?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "${siteFacts.pricing.messages.full} Final pricing depends on the home's size, condition, scope, and add-ons; request a free quote."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Are your cleaners insured and background-checked?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Absolutely. For your peace of mind, every member of our team is fully vetted, background-checked, bonded, and insured."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How long does a cleaning service take?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A standard cleaning for a medium-sized house typically takes 2-4 hours. We also offer more comprehensive deep cleaning services."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can you clean on a schedule (weekly, bi-weekly, monthly) or just once?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "We offer both scheduled and one-time cleanings. Weekly, bi-weekly, or monthly plans are available and often qualify for discounted rates compared to one-off bookings."
+        }
+      }
+    ]
+  }`;
+
+  return (
+    <div className="pt-20">
+      <script id="residential-jsonld-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdBreadcrumb }} />
+      <script id="residential-jsonld-service" type="application/ld+json" dangerouslySetInnerHTML={{ __html: serviceSchema }} />
+      <LocalBusinessSchema id="https://cleaningbocaraton.com/residential-cleaning#localbusiness" name="Cleaning Boca Raton - Residential Services" url="https://cleaningbocaraton.com/residential-cleaning" image="https://cleaningbocaraton.com/boca-raton-residential-cleaning.webp" priceRange="$$" />
+      <script id="residential-jsonld-faq" type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdFaq }} />
+
+      <section className="bg-mist py-20">
+        <div className="container mx-auto px-4">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div className="space-y-8">
+              <div className="flex items-center space-x-3">
+                <HomeIcon className="w-8 h-8 text-primary" />
+                <span className="text-primary font-semibold">House Cleaning</span>
+              </div>
+              <h1 data-cy="residential-cleaning-title" className="text-4xl md:text-5xl font-bold text-gray-900 leading-tight">House Cleaning Services in Boca Raton, FL</h1>
+              <p className="text-lg text-gray-600 leading-relaxed">Transform your house into a spotless sanctuary with our comprehensive residential cleaning services. From regular maintenance to deep cleaning, we handle it all so you can focus on what matters most.</p>
+              <div className="flex justify-start">
+                <Link href="/booking" className="bg-primary text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-primary transform hover:scale-105 transition-all duration-200 shadow-lg inline-block">Get Free Quote and Book</Link>
+              </div>
+            </div>
+            <div className="relative">
+              <Image
+                src="/boca-raton-residential-cleaning.webp"
+                alt="Cleaning Boca Raton - House Cleaning in Boca Raton, FL"
+                width={800}
+                height={800}
+                priority
+                className="w-full max-w-md mx-auto aspect-square object-cover rounded-2xl shadow-2xl"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* AIO 'Direct Answer' Section */}
+      <section className="bg-white py-8 border-b border-gray-100">
+        <div className="container mx-auto px-4">
+          <div className="bg-background rounded-xl p-6 md:p-8 border border-border">
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">How much does house cleaning help cost in Boca Raton, FL?</h2>
+            <div className="prose max-w-none text-gray-700">
+              <p className="text-lg leading-relaxed mb-4">
+                <strong>{siteFacts.brandName}</strong> provides professional <strong>house cleaning in Boca Raton, FL</strong>. <strong>{siteFacts.pricing.messages.entryAndTypical}</strong> Final pricing depends on the home&apos;s size, condition, scope, and add-ons.
+              </p>
+              <ul className="grid sm:grid-cols-2 gap-2 list-none pl-0">
+                <li className="flex items-center"><CheckCircle className="w-5 h-5 text-primary mr-2" /> <strong>Pricing:</strong>&nbsp;{siteFacts.pricing.messages.entryAndTypical}</li>
+                <li className="flex items-center"><CheckCircle className="w-5 h-5 text-primary mr-2" /> <strong>One-Time Clean:</strong> Starting at $120</li>
+                <li className="flex items-center"><CheckCircle className="w-5 h-5 text-primary mr-2" /> <strong>Availability:</strong> Next-day often available</li>
+                <li className="flex items-center"><CheckCircle className="w-5 h-5 text-primary mr-2" /> <strong>Service Area:</strong> All Boca Raton zip codes</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Expert Field Notes Section */}
+      <section className="py-12 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto">
+            <div className="flex items-center mb-6">
+              <Shield className="w-8 h-8 text-primary mr-3" />
+              <h2 className="text-2xl font-bold text-gray-900">Expert Field Notes: Cleaning Boca Raton Insights</h2>
+            </div>
+            <div className="grid md:grid-cols-3 gap-6">
+              <div className="bg-gray-50 p-6 rounded-xl border border-gray-100">
+                <h3 className="font-semibold text-gray-900 mb-2">Hard Water Defense</h3>
+                <p className="text-sm text-gray-600">Boca Raton water has high mineral content. We use specific pH-neutral cleaners to prevent haze on your shower glass.</p>
+              </div>
+              <div className="bg-gray-50 p-6 rounded-xl border border-gray-100">
+                <h3 className="font-semibold text-gray-900 mb-2">Humidity Control</h3>
+                <p className="text-sm text-gray-600">We recommend keeping A/C set to 74°F during cleaning to allow floors to dry streak-free in Florida humidity.</p>
+              </div>
+              <div className="bg-gray-50 p-6 rounded-xl border border-gray-100">
+                <h3 className="font-semibold text-gray-900 mb-2">Pest Prevention</h3>
+                <p className="text-sm text-gray-600">Our kitchen checklist focuses on crumb removal in pantry corners to deter locally common Palmetto bugs.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* At a Glance Section (AEO Hook) */}
+      <section className="bg-white py-12 border-b border-gray-100">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <div className="p-4 bg-background rounded-xl border border-border text-center">
+              <Clock className="w-8 h-8 text-primary mx-auto mb-2" />
+              <div className="text-sm text-gray-500 font-medium uppercase tracking-wide">Duration</div>
+              <div className="font-bold text-gray-900">2 - 4 Hours</div>
+            </div>
+            <div className="p-4 bg-green-50 rounded-xl border border-green-100 text-center">
+              <Zap className="w-8 h-8 text-green-600 mx-auto mb-2" />
+              <div className="text-sm text-gray-500 font-medium uppercase tracking-wide">Starting Price</div>
+              <div className="font-bold text-gray-900">Entry ${siteFacts.pricing.entryStartingFrom} · Typical 3BR {siteFacts.pricing.typical3brStandard}</div>
+            </div>
+            <div className="p-4 bg-purple-50 rounded-xl border border-purple-100 text-center">
+              <Sparkles className="w-8 h-8 text-purple-600 mx-auto mb-2" />
+              <div className="text-sm text-gray-500 font-medium uppercase tracking-wide">Best For</div>
+              <div className="font-bold text-gray-900">Recurring Maintenance</div>
+            </div>
+            <div className="p-4 bg-orange-50 rounded-xl border border-orange-100 text-center">
+              <Shield className="w-8 h-8 text-orange-600 mx-auto mb-2" />
+              <div className="text-sm text-gray-500 font-medium uppercase tracking-wide">Guarantee</div>
+              <div className="font-bold text-gray-900">100% Satisfaction</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <SpecialOffers />
+
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 data-cy="residential-services-title" className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">House Cleaning Services</h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">Choose from our flexible cleaning packages designed to fit your lifestyle and budget.</p>
+            <p className="text-md text-gray-600 max-w-3xl mx-auto mt-4">Looking for a professional house cleaning service near me? Our local Boca Raton team provides reliable, thorough cleaning services right in your neighborhood, ensuring your house stays pristine without the hassle.</p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+            {services.map((service, index) => {
+              const cardContent = (
+                <div className="bg-white border-2 border-gray-100 rounded-xl p-8 hover:border-border hover:shadow-lg transition-all duration-300">
+                  <div className="text-center mb-6">
+                    <h3 className="text-xl font-bold text-gray-900 mb-2">{service.name}</h3>
+                    <p className="text-gray-600 mb-4">{service.description}</p>
+                    <div className="text-2xl font-bold text-primary mb-1">{service.price}</div>
+                    <div className="text-sm text-gray-500 flex items-center justify-center">
+                      <Clock className="w-4 h-4 mr-1" />
+                      {service.duration}
+                    </div>
+                  </div>
+                  <div className="space-y-3">
+                    <h4 className="font-semibold text-gray-900">Includes:</h4>
+                    {service.includes.map((item, itemIndex) => (
+                      <div key={itemIndex} className="flex items-center text-sm text-gray-700">
+                        <CheckCircle className="w-4 h-4 text-green-500 mr-3 flex-shrink-0" />
+                        {item}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              );
+
+              return service.name === 'Move-In/Move-Out' ? (
+                <Link href="/move-in-move-out-cleaning" className="block" key={index}>
+                  {cardContent}
+                </Link>
+              ) : (
+                <div key={index}>{cardContent}</div>
+              );
+            })}
+          </div>
+
+          {/* Comparison Table */}
+          <div className="max-w-4xl mx-auto mb-16">
+            <h3 className="text-2xl font-bold text-gray-900 mb-6 text-center">Which Clean Do You Need?</h3>
+            <div className="overflow-x-auto rounded-xl border border-gray-200 shadow-sm">
+              <table className="w-full text-left text-sm text-gray-600">
+                <thead className="bg-gray-50 text-xs uppercase text-gray-700 font-bold">
+                  <tr>
+                    <th className="px-6 py-4">Task</th>
+                    <th className="px-6 py-4 text-center">Standard Clean</th>
+                    <th className="px-6 py-4 text-center text-primary bg-background">Deep Clean</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-200 bg-white">
+                  <tr>
+                    <td className="px-6 py-4 font-medium text-gray-900">Kitchen Counters & Sinks</td>
+                    <td className="px-6 py-4 text-center text-green-600">✓</td>
+                    <td className="px-6 py-4 text-center text-green-600 bg-background/30">✓</td>
+                  </tr>
+                  <tr>
+                    <td className="px-6 py-4 font-medium text-gray-900">Vacuum & Mop Floors</td>
+                    <td className="px-6 py-4 text-center text-green-600">✓</td>
+                    <td className="px-6 py-4 text-center text-green-600 bg-background/30">✓</td>
+                  </tr>
+                  <tr>
+                    <td className="px-6 py-4 font-medium text-gray-900">Baseboards (Hand-Wiped)</td>
+                    <td className="px-6 py-4 text-center text-gray-400">Dust Only</td>
+                    <td className="px-6 py-4 text-center text-green-600 font-bold bg-background/30">✓</td>
+                  </tr>
+                  <tr>
+                    <td className="px-6 py-4 font-medium text-gray-900">Ceiling Fans (Hand-Wiped)</td>
+                    <td className="px-6 py-4 text-center text-gray-400">Dust Only</td>
+                    <td className="px-6 py-4 text-center text-green-600 font-bold bg-background/30">✓</td>
+                  </tr>
+                  <tr>
+                    <td className="px-6 py-4 font-medium text-gray-900">Cabinet Fronts</td>
+                    <td className="px-6 py-4 text-center text-gray-400">Spot Clean</td>
+                    <td className="px-6 py-4 text-center text-green-600 font-bold bg-background/30">✓</td>
+                  </tr>
+                  <tr>
+                    <td className="px-6 py-4 font-medium text-gray-900">Light Switches & Doors</td>
+                    <td className="px-6 py-4 text-center text-gray-400">-</td>
+                    <td className="px-6 py-4 text-center text-green-600 font-bold bg-background/30">✓</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div className="text-center mt-6">
+              <Link href="/deep-cleaning" className="text-primary font-semibold hover:underline flex items-center justify-center">
+                Learn more about Deep Cleaning <ArrowRight className="w-4 h-4 ml-1" />
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-20 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 data-cy="additional-services-title" className="text-3xl font-bold text-gray-900 mb-4">Additional House Cleaning Services</h2>
+            <p className="text-lg text-gray-600">Customize your cleaning with these popular add-on services.</p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto">
+            {addOns.map((addon, index) => (
+              <div key={index} className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+                <div className="flex items-center justify-between">
+                  <span className="font-semibold text-gray-900">{addon.name}</span>
+                  <span className="text-primary">{addon.price}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* SEO Guide Content */}
+      <section className="py-16 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">House Cleaning Guide</h2>
+            <p className="text-gray-700 mb-4">
+              Searching for <strong>house cleaning near me</strong>? Our local team delivers professional, reliable results with flexible scheduling and clear checklists. We provide <strong>house cleaning services near me</strong> across Seminole County, tailored to your home&apos;s layout and priorities.
+            </p>
+            <p className="text-gray-700 mb-4">
+              For homeowners looking for <strong>house cleaning services in boca-raton fl</strong>, our <strong>boca-raton house cleaning</strong> covers kitchens, bathrooms, living areas, and bedrooms—plus add‑ons like appliance interiors and window sills. We also work with property managers and realtors who need consistent <strong>house cleaners in boca-raton fl</strong> for turn‑key results.
+            </p>
+            <div className="bg-gray-50 rounded-xl p-6 border border-gray-200 mb-6">
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">House Cleaning in Boca Raton, FL</h3>
+              <p className="text-gray-700 mb-3">
+                Our <strong>house cleaning boca-raton fl</strong> programs include weekly, bi‑weekly, monthly, and one‑time options. If you need dependable <strong>house cleaning services boca-raton</strong>, we can maintain your home on a schedule or complete a single deep refresh.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-3">
+                <Link href="/custom-quote" className="inline-flex items-center px-5 py-3 bg-primary text-white rounded-lg hover:bg-primary transition-colors">
+                  Get a Free Quote
+                  <ArrowRight className="w-5 h-5 ml-2" />
+                </Link>
+                <Link href="/booking" className="inline-flex items-center px-5 py-3 bg-white border border-gray-200 rounded-lg text-gray-800 hover:border-secondary hover:text-primary transition-colors">
+                  Book House Cleaning
+                </Link>
+              </div>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-6">
+              <div className="bg-white rounded-xl p-6 border">
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">Popular Searches Near You</h3>
+                <ul className="space-y-2 text-gray-700">
+                  <li className="flex items-start"><CheckCircle className="w-4 h-4 text-green-600 mr-2 mt-0.5" /> <span><strong>house cleaning near me</strong> – recurring or one‑time appointments.</span></li>
+                  <li className="flex items-start"><CheckCircle className="w-4 h-4 text-green-600 mr-2 mt-0.5" /> <span><strong>house cleaning services near me</strong> – customized checklists and reliable scheduling.</span></li>
+                  <li className="flex items-start"><CheckCircle className="w-4 h-4 text-green-600 mr-2 mt-0.5" /> <span><strong>house cleaning services in boca-raton fl</strong> – local, insured professionals.</span></li>
+                </ul>
+              </div>
+              <div className="bg-white rounded-xl p-6 border">
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">Ways to Book</h3>
+                <ul className="space-y-2 text-gray-700">
+                  <li className="flex items-start"><CheckCircle className="w-4 h-4 text-green-600 mr-2 mt-0.5" /> Book online at <Link href="/booking" className="text-primary underline hover:text-primary/80">cleaningbocaraton.com/booking</Link></li>
+                  <li className="flex items-start"><CheckCircle className="w-4 h-4 text-green-600 mr-2 mt-0.5" /> Call or text <a href="tel:+15610000000" className="text-primary underline hover:text-primary/80">(561) 000-0000</a></li>
+                  <li className="flex items-start"><CheckCircle className="w-4 h-4 text-green-600 mr-2 mt-0.5" /> Email <a href="mailto:hello@cleaningbocaraton.com" className="text-primary underline hover:text-primary/80">hello@cleaningbocaraton.com</a></li>
+                </ul>
+              </div>
+            </div>
+
+            {/* FAQs */}
+            <div className="mt-12">
+              <h2 className="text-3xl md:text-3xl font-bold text-gray-900 mb-8">Common Questions</h2>
+              <div className="space-y-4">
+                <details className="bg-white rounded-xl p-6 border group">
+                  <summary className="cursor-pointer font-semibold text-gray-900 flex items-center justify-between">
+                    Can you clean on a schedule (weekly, bi‑weekly, monthly) or just once?
+                    <span className="text-gray-500 group-open:rotate-180 transition-transform">▾</span>
+                  </summary>
+                  <p className="text-gray-700 mt-3">Yes. We offer both scheduled and one‑time cleanings. Weekly, bi‑weekly, or monthly plans are available and often qualify for discounted rates compared to one‑off bookings.</p>
+                </details>
+                <details className="bg-white rounded-xl p-6 border group">
+                  <summary className="cursor-pointer font-semibold text-gray-900 flex items-center justify-between">
+                    What are the ways to book cleaning?
+                    <span className="text-gray-500 group-open:rotate-180 transition-transform">▾</span>
+                  </summary>
+                  <p className="text-gray-700 mt-3">You can book online on our website, call or text <a href="tel:+15610000000" className="text-primary underline hover:text-primary/80">(561) 000-0000</a>, or email <a href="mailto:hello@cleaningbocaraton.com" className="text-primary underline hover:text-primary/80">hello@cleaningbocaraton.com</a>.</p>
+                </details>
+              </div>
+            </div>
+
+            {/* Hyper-Local Neighborhood Section */}
+            <div className="mt-16 pt-12 border-t border-gray-100">
+              <h2 className="text-3xl font-bold text-gray-900 mb-8">Serving Boca Raton&apos;s Neighborhoods</h2>
+              <div className="grid md:grid-cols-2 gap-8">
+                <div>
+                  <h3 className="text-xl font-semibold text-gray-900 mb-3">Historic & Downtown</h3>
+                  <p className="text-gray-600 mb-4">
+                    Our team provides meticulous <strong>house cleaning in the Old Floresta</strong>, respecting the unique needs of older homes and Victorians. We also serve the downtown area near <strong>Lake Monroe</strong> and the <strong>Boca Raton Riverwalk</strong>.
+                  </p>
+                  <ul className="space-y-1 text-gray-700">
+                    <li className="flex items-start"><CheckCircle className="w-4 h-4 text-secondary mr-2 mt-1" /> Historic District</li>
+                    <li className="flex items-start"><CheckCircle className="w-4 h-4 text-secondary mr-2 mt-1" /> Downtown Boca Raton</li>
+                    <li className="flex items-start"><CheckCircle className="w-4 h-4 text-secondary mr-2 mt-1" /> Georgetown</li>
+                  </ul>
+                </div>
+                <div>
+                  <h3 className="text-xl font-semibold text-gray-900 mb-3">Subdivisions & Communities</h3>
+                  <p className="text-gray-600 mb-4">
+                    We frequently service homes in <strong>Mizner Park</strong>, <strong>Boca Del Mar</strong>, and <strong>Boca West</strong>. From large estate cleanings near <strong>Town Center at Boca Raton</strong> to townhomes in <strong>Spanish River</strong>, we have a cleaning plan for every home type.
+                  </p>
+                  <ul className="space-y-1 text-gray-700">
+                    <li className="flex items-start"><CheckCircle className="w-4 h-4 text-secondary mr-2 mt-1" /> Mizner Park / Boca Del Mar</li>
+                    <li className="flex items-start"><CheckCircle className="w-4 h-4 text-secondary mr-2 mt-1" /> Spanish River</li>
+                    <li className="flex items-start"><CheckCircle className="w-4 h-4 text-secondary mr-2 mt-1" /> Boca West</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <AuthorBio />
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}

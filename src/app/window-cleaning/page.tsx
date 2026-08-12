@@ -1,0 +1,342 @@
+import Link from "next/link";
+import Image from "next/image";
+import LocalBusinessSchema from "@/components/LocalBusinessSchema";
+import ServiceSchema from "@/components/ServiceSchema";
+import AuthorBio from "@/components/AuthorBio";
+import SpecialOffers from "@/components/SpecialOffers";
+import ConversationalFAQ from "@/components/ConversationalFAQ";
+import { Sparkles, ScanLine, CheckCircle, Phone, ArrowRight, Shield, Clock, MapPin, Sun, Wind } from "lucide-react";
+
+export const metadata = {
+  title: "Window Cleaning in Boca Raton, FL | Streak-Free Results",
+  description:
+    "Professional window cleaning service in Boca Raton, FL. We clean inside and outside windows, screens, and tracks for homes and businesses. Get a free quote!",
+  keywords:
+    "window cleaning near me, boca-raton window cleaning, window cleaning boca-raton fl, window cleaning in boca-raton florida, outside and inside window cleaning, residential window cleaning, commercial window cleaning",
+  alternates: { canonical: "https://cleaningbocaraton.com/window-cleaning" },
+  openGraph: {
+    title: "Window Cleaning in Boca Raton, FL | Streak-Free Results",
+    description:
+      "Professional window cleaning service in Boca Raton, FL. We clean inside and outside windows, screens, and tracks for homes and businesses. Get a free quote!",
+    type: "website",
+    url: "https://cleaningbocaraton.com/window-cleaning",
+    images: ["https://cleaningbocaraton.com/boca-raton-cleaning-homepage.webp"],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Window Cleaning in Boca Raton, FL | Streak-Free Results",
+    description:
+      "Professional window cleaning service in Boca Raton, FL. We clean inside and outside windows, screens, and tracks for homes and businesses. Get a free quote!",
+    images: ["https://cleaningbocaraton.com/boca-raton-cleaning-homepage.webp"],
+  },
+};
+
+export default function WindowCleaningPage() {
+  const jsonLdBreadcrumb = `{
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://cleaningbocaraton.com" },
+      { "@type": "ListItem", "position": 2, "name": "Window Cleaning", "item": "https://cleaningbocaraton.com/window-cleaning" }
+    ]
+  }`;
+
+  const faqItems = [
+    {
+      question: "What’s included in your window cleaning service?",
+      answer: "We clean exterior and interior glass, and upon request we detail frames, sills, tracks, and screens. Hard-water spot treatment is available where feasible."
+    },
+    {
+      question: "Do you clean screens and window tracks?",
+      answer: "Yes. We can remove, wash, and reinstall screens and clean tracks/sills to lift dust and buildup for smoother operation."
+    },
+    {
+      question: "Is outside and inside window cleaning available?",
+      answer: "Absolutely. We offer outside and inside service for residential and commercial properties with streak‑free methods and pure‑water options."
+    },
+    {
+      question: "How long does it take and how is pricing handled?",
+      answer: "Timing depends on window count, access, and add‑ons like tracks/screens. Get transparent pricing via our online quote or by calling (561) 000-0000."
+    }
+  ];
+
+  const areas = ["Boca Raton, FL", "Mizner Park, FL", "Boca West, FL", "East Boca, FL", "Spanish River, FL"];
+
+  const benefits = [
+    "Outside and inside window cleaning for spotless results",
+    "Residential and commercial service with flexible scheduling",
+    "Frame, sill, track, and screen cleaning available",
+    "Streak-free techniques and water-fed pole options",
+    "Licensed and insured technicians based near Boca Raton, FL",
+  ];
+
+  const services = [
+    {
+      title: "Exterior Glass",
+      description:
+        "Windows cleaning in Boca Raton Florida with streak-free methods and pure-water options to remove dust, pollen, and spots.",
+    },
+    { title: "Interior Glass", description: "Careful inside window cleaning to brighten rooms and improve clarity without residue." },
+    { title: "Tracks & Sills", description: "Detail cleaning of tracks, sills, and frames to remove dirt buildup and improve operation." },
+    { title: "Screens", description: "Remove, wash, and reinstall screens to restore airflow and reduce dust." },
+    { title: "Hard-Water Stain Removal", description: "Targeted treatments for mineral deposits and water spots where feasible." },
+  ];
+
+  return (
+    <div className="pt-20 min-h-screen bg-gray-50">
+      <script id="window-cleaning-jsonld-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdBreadcrumb }} />
+      <LocalBusinessSchema id="https://cleaningbocaraton.com/window-cleaning#localbusiness" name="Cleaning Boca Raton - Window Cleaning" url="https://cleaningbocaraton.com/window-cleaning" />
+      <ServiceSchema
+        name="Window Cleaning Services"
+        serviceType="Window Cleaning"
+        description="Professional inside and outside window cleaning for residential and commercial properties in Boca Raton, FL."
+        url="https://cleaningbocaraton.com/window-cleaning"
+        offers={[
+          { name: "Window Cleaning Service", price: "150.00" }
+        ]}
+      />
+      {/* Hero */}
+      <section className="bg-white border-b">
+        <div className="container mx-auto px-4 py-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+            <div>
+              <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">Outside & Inside Window Cleaning in Boca Raton, FL</h1>
+              <p className="text-gray-700 mb-6">
+                Crystal-clear windows brighten your space and improve curb appeal. Cleaning Boca Raton offers professional window cleaning in Boca Raton FL—outside and inside service for
+                <Link href="/house-cleaning" className="text-primary underline hover:text-primary/80"> residential</Link> and
+                <Link href="/commercial-cleaning" className="text-primary underline hover:text-primary/80"> commercial</Link> properties. We detail tracks, sills, frames, and screens for a complete finish.
+              </p>
+              <div className="flex flex-wrap gap-3">
+                <Link href="/custom-quote" className="inline-flex items-center px-5 py-3 bg-primary text-white rounded-lg hover:bg-primary transition-colors" data-cy="windows-quote-button">
+                  <Sparkles className="w-5 h-5 mr-2" />
+                  Get a Free Quote
+                </Link>
+                <Link href="/booking" className="inline-flex items-center px-5 py-3 border border-primary text-primary rounded-lg hover:bg-background transition-colors" data-cy="windows-booking-button">
+                  <ArrowRight className="w-5 h-5 mr-2" />
+                  Book Now
+                </Link>
+              </div>
+              <div className="mt-4 text-sm text-gray-600 flex items-center">
+                <Phone className="w-4 h-4 mr-2" /> Call Cleaning Boca Raton:
+                <a href="tel:321-236-0618" className="ml-1 hover:text-primary transition-colors" data-cy="windows-phone-link">
+                  (561) 000-0000
+                </a>
+              </div>
+            </div>
+            <div className="bg-gray-100 rounded-lg p-6 border">
+              <div className="grid grid-cols-2 gap-4">
+                {benefits.map((b) => (
+                  <div key={b} className="flex items-start">
+                    <CheckCircle className="w-5 h-5 text-green-600 mt-1 mr-2" />
+                    <p className="text-gray-700 text-sm">{b}</p>
+                  </div>
+                ))}
+              </div>
+              <div className="mt-4 flex items-center text-sm text-gray-600">
+                <Shield className="w-4 h-4 mr-2" /> Fully insured • <Clock className="w-4 h-4 mx-2" /> On-time • <MapPin className="w-4 h-4 mx-2" /> Boca Raton, FL
+              </div>
+              <div className="mt-8 rounded-xl overflow-hidden shadow-lg border border-gray-100">
+                <Image
+                  src="/boca-raton-cleaning-windows-cleaning.png"
+                  alt="Professional window cleaning in Boca Raton FL"
+                  width={800}
+                  height={500}
+                  className="w-full h-80 md:h-96 object-cover object-top"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* AIO 'Direct Answer' Section */}
+      <section className="bg-white py-8 border-b border-gray-100">
+        <div className="container mx-auto px-4">
+          <div className="bg-background rounded-xl p-6 md:p-8 border border-border">
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">How much does window cleaning cost in Boca Raton, FL?</h2>
+            <div className="prose max-w-none text-gray-700">
+              <p className="text-lg leading-relaxed mb-4">
+                <strong>Cleaning Boca Raton</strong> offers streak-free <strong>window cleaning in Boca Raton, FL</strong> starting at <strong>$150</strong> (based on pane count). We clean both interior and exterior glass using purified water technology that dries spotless. Our service includes track detailing and screen washing, critical for specialized Florida screen enclosures.
+              </p>
+              <ul className="grid sm:grid-cols-2 gap-2 list-none pl-0">
+                <li className="flex items-center"><CheckCircle className="w-5 h-5 text-primary mr-2" /> <strong>Starting Price:</strong> $150 (approx. 15-20 panes)</li>
+                <li className="flex items-center"><CheckCircle className="w-5 h-5 text-primary mr-2" /> <strong>Includes:</strong> Tracks, Sills, Screens</li>
+                <li className="flex items-center"><CheckCircle className="w-5 h-5 text-primary mr-2" /> <strong>Method:</strong> Pure Water Fed Pole</li>
+                <li className="flex items-center"><CheckCircle className="w-5 h-5 text-primary mr-2" /> <strong>Add-On:</strong> Hard Water Stain Removal</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <SpecialOffers />
+
+      {/* Expert Field Notes Section */}
+      <section className="py-12 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto">
+            <div className="flex items-center mb-6">
+              <Shield className="w-8 h-8 text-primary mr-3" />
+              <h2 className="text-2xl font-bold text-gray-900">Expert Field Notes: Glass Care</h2>
+            </div>
+            <div className="grid md:grid-cols-3 gap-6">
+              <div className="bg-gray-50 p-6 rounded-xl border border-gray-100">
+                <h3 className="font-semibold text-gray-900 mb-2">Irrigation Stains</h3>
+                <p className="text-sm text-gray-600">Boca Raton sprinkler systems often hit windows, modifying hard water deposits. We use mild acids to restore clarity without scratching.</p>
+              </div>
+              <div className="bg-gray-50 p-6 rounded-xl border border-gray-100">
+                <h3 className="font-semibold text-gray-900 mb-2">Track Detailing</h3>
+                <p className="text-sm text-gray-600">Sand and pollen accumulate in window tracks, causing jams. We vacuum and brush tracks out before cleaning the glass.</p>
+              </div>
+              <div className="bg-gray-50 p-6 rounded-xl border border-gray-100">
+                <h3 className="font-semibold text-gray-900 mb-2">Screen Oxidation</h3>
+                <p className="text-sm text-gray-600">Sun-baked screens can become brittle. We carefully remove and hand-wash them to avoid tears while removing trapped dust.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Services */}
+      <section className="container mx-auto px-4 py-12">
+        <h2 className="text-2xl font-semibold text-gray-900 mb-6">Window Cleaning Services</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {services.map((s) => (
+            <div key={s.title} className="bg-white rounded-lg shadow-sm border p-6">
+              <div className="flex items-center mb-3">
+                <ScanLine className="w-6 h-6 text-primary mr-2" />
+                <h3 className="text-lg font-semibold text-gray-900">{s.title}</h3>
+              </div>
+              <p className="text-gray-700 text-sm">{s.description}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Article Section for SEO */}
+      <section className="container mx-auto px-4 py-12">
+        <h2 className="text-2xl font-semibold text-gray-900 mb-4">Window Cleaning in Boca Raton FL: What to Expect</h2>
+        <div className="prose max-w-none text-gray-800">
+          <p>
+            For homeowners and businesses seeking window cleaning in Boca Raton FL, the goal is more than spotless glass. Our professional window cleaners ensure proper outside and inside window washing to remove pollen, construction dust, and water spots, while detailing tracks and sills to prevent sticking and grime buildup. Cleaning Boca Raton uses streak-free methods and surface-safe tools that respect your materials.
+          </p>
+          <p>
+            Residential and commercial properties have different needs. <strong>For homeowners</strong>, clean windows instantly boost curb appeal, let in more natural light, and protect the glass from long-term hard water etching. <strong>For businesses and storefronts</strong>, routine exterior glass cleaning maintains visibility and a pristine brand image for passing foot traffic. Homes often pair our window washing service with seasonal
+            <Link href="/pressure-washing" className="text-primary underline hover:text-primary/80"> pressure washing</Link> and interior detailing. If you’ve recently completed
+            <Link href="/pressure-washing" className="text-primary underline hover:text-primary/80"> pressure washing</Link>, we recommend scheduling your window cleaning right after to eliminate any residue and ensure a consistent shine throughout the property.
+          </p>
+          <p>
+            Our team provides flexible scheduling and clear pricing. Call <a href="tel:321-236-0618" className="text-primary underline hover:text-primary/80">(561) 000-0000</a> to discuss your Boca Raton FL property, or
+            <Link href="/custom-quote" className="text-primary underline hover:text-primary/80"> request a custom quote</Link>. We can bundle pressure washing and window cleaning for a seamless, full-service experience.
+          </p>
+        </div>
+      </section>
+
+      {/* Popular Searches Near You */}
+      <section className="container mx-auto px-4 py-12">
+        <div className="grid md:grid-cols-2 gap-6">
+          <div className="bg-white rounded-xl p-6 border">
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">Popular Searches Near You</h3>
+            <ul className="space-y-2 text-gray-700">
+              <li className="flex items-start"><CheckCircle className="w-4 h-4 text-green-600 mr-2 mt-0.5" /> <span><strong>window cleaning near me</strong> – local residential and commercial service.</span></li>
+              <li className="flex items-start"><CheckCircle className="w-4 h-4 text-green-600 mr-2 mt-0.5" /> <span><strong>boca-raton window cleaning</strong> – streak‑free outside and inside cleaning.</span></li>
+              <li className="flex items-start"><CheckCircle className="w-4 h-4 text-green-600 mr-2 mt-0.5" /> <span><strong>window screen cleaning</strong> – remove, wash, and reinstall screens.</span></li>
+              <li className="flex items-start"><CheckCircle className="w-4 h-4 text-green-600 mr-2 mt-0.5" /> <span><strong>window track cleaning</strong> – detail tracks and sills to prevent sticking.</span></li>
+            </ul>
+          </div>
+          <div className="bg-white rounded-xl p-6 border">
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">Why Choose Cleaning Boca Raton</h3>
+            <ul className="space-y-2 text-gray-700">
+              <li className="flex items-start"><CheckCircle className="w-4 h-4 text-green-600 mr-2 mt-0.5" /> Licensed and insured window technicians</li>
+              <li className="flex items-start"><CheckCircle className="w-4 h-4 text-green-600 mr-2 mt-0.5" /> Pure‑water and surface‑safe methods</li>
+              <li className="flex items-start"><CheckCircle className="w-4 h-4 text-green-600 mr-2 mt-0.5" /> Flexible scheduling for homes and storefronts</li>
+              <li className="flex items-start"><CheckCircle className="w-4 h-4 text-green-600 mr-2 mt-0.5" /> Transparent pricing and clear communication</li>
+            </ul>
+            <div className="mt-4 flex flex-col sm:flex-row gap-3">
+              <Link href="/custom-quote" className="inline-flex items-center px-5 py-3 bg-primary text-white rounded-lg hover:bg-primary transition-colors">
+                Get a Free Quote
+                <ArrowRight className="w-5 h-5 ml-2" />
+              </Link>
+              <Link href="/booking" className="inline-flex items-center px-5 py-3 bg-white border border-gray-200 rounded-lg text-gray-800 hover:border-secondary hover:text-primary transition-colors">
+                Book Window Cleaning
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Related Services */}
+      <section className="py-12 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <h3 className="text-xl font-bold text-gray-900 mb-4">Related Services</h3>
+          <div className="flex flex-wrap gap-3">
+            <Link href="/pressure-washing" className="px-4 py-2 bg-white border border-gray-200 rounded-lg text-gray-800 hover:border-secondary hover:text-primary transition-colors">
+              Pressure Washing
+            </Link>
+            <Link href="/house-cleaning" className="px-4 py-2 bg-white border border-gray-200 rounded-lg text-gray-800 hover:border-secondary hover:text-primary transition-colors">
+              Residential Cleaning
+            </Link>
+            <Link href="/commercial-cleaning" className="px-4 py-2 bg-white border border-gray-200 rounded-lg text-gray-800 hover:border-secondary hover:text-primary transition-colors">
+              Commercial Cleaning
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Areas */}
+      <section className="bg-white border-t">
+        <div className="container mx-auto px-4 py-12">
+          <h2 className="text-2xl font-semibold text-gray-900 mb-4">Areas We Serve</h2>
+          <div className="flex flex-wrap gap-3">
+            {areas.map((area) => (
+              <span key={area} className="px-3 py-1 text-sm rounded-full bg-background text-primary border border-border">
+                {area}
+              </span>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Hyper-Local Neighborhood Section */}
+      <section className="py-12 bg-white border-t border-gray-100">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-3xl font-bold text-gray-900 mb-8">Serving Boca Raton Homes & Businesses</h2>
+            <div className="grid md:grid-cols-2 gap-8">
+              <div>
+                <h3 className="text-xl font-semibold text-gray-900 mb-3">Lakefront Properties</h3>
+                <p className="text-gray-600 mb-4">
+                  Homes near <strong>Lake Monroe</strong> face heavy pollen and spider webs. We offer quarterly exterior glass programs to keep your view clear.
+                </p>
+                <ul className="space-y-1 text-gray-700">
+                  <li className="flex items-start"><MapPin className="w-4 h-4 text-secondary mr-2 mt-1" /> Riverwalk Area</li>
+                  <li className="flex items-start"><MapPin className="w-4 h-4 text-secondary mr-2 mt-1" /> Marina Isle</li>
+                </ul>
+              </div>
+              <div>
+                <h3 className="text-xl font-semibold text-gray-900 mb-3">Commercial Storefronts</h3>
+                <p className="text-gray-600 mb-4">
+                  We service storefronts along <strong>1st Street</strong> and <strong>French Ave</strong>, ensuring display windows are spotless for foot traffic.
+                </p>
+                <ul className="space-y-1 text-gray-700">
+                  <li className="flex items-start"><MapPin className="w-4 h-4 text-secondary mr-2 mt-1" /> Historic Downtown</li>
+                  <li className="flex items-start"><MapPin className="w-4 h-4 text-secondary mr-2 mt-1" /> Towne Center Blvd</li>
+                </ul>
+              </div>
+            </div>
+
+            <ConversationalFAQ
+              title="Frequently Asked Questions: Window Cleaning"
+              items={faqItems}
+              className="mt-12 bg-transparent border-t border-gray-100"
+            />
+
+            <div className="mt-12">
+              <AuthorBio />
+            </div>
+          </div>
+        </div>
+      </section>
+    </div >
+  );
+}

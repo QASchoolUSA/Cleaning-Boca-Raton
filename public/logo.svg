@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 80" role="img" aria-label="Cleaning Boca Raton">
+  <defs>
+    <linearGradient id="wave" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0C4A6E"/>
+      <stop offset="100%" stop-color="#0D9488"/>
+    </linearGradient>
+  </defs>
+  <rect width="320" height="80" rx="12" fill="#FAF8F5"/>
+  <path d="M0 58 Q40 42 80 58 T160 58 T240 58 T320 58 V80 H0 Z" fill="url(#wave)" opacity="0.15"/>
+  <circle cx="28" cy="40" r="18" fill="#0C4A6E"/>
+  <path d="M22 40 L26 44 L34 34" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="56" y="34" font-family="Georgia, serif" font-size="18" font-weight="700" fill="#0C4A6E">Cleaning</text>
+  <text x="56" y="56" font-family="Arial, sans-serif" font-size="20" font-weight="700" fill="#0D9488">Boca Raton</text>
+</svg>

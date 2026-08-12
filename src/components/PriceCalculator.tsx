@@ -1,0 +1,1060 @@
+"use client";
+import React, { useState, useEffect, useRef, useMemo } from 'react';
+import { useRouter } from 'next/navigation';
+import { ChevronLeft, ChevronRight, ChevronUp, ChevronDown, Check, Loader2 } from 'lucide-react';
+import { DatePicker } from '@/components/ui/date-picker';
+import { TimeSlotPicker } from '@/components/ui/time-slot-picker';
+import AddressAutocomplete from '@/components/ui/address-autocomplete';
+import {
+  DEFAULT_PRICING_CONFIG,
+  calculateQuote,
+  type PricingConfig,
+} from '@/lib/pricing';
+
+interface FormData {
+  // Step 1: Service Selection
+  service: string;
+  frequency?: string;
+  hours?: number;
+  minutes?: number;
+
+  // Step 2: Home Details
+  squareFootage: string;
+  /** Set when the size came from a quick-pick band rather than an exact entry. */
+  squareFootageBand: string;
+  bedrooms: string;
+  bathrooms: string;
+  excludeAreas: boolean;
+  excludedAreas: string[];
+  extras: { name: string; quantity?: number }[];
+  extraQuantities: { [key: string]: number };
+
+  // Step 3: Tell Us More
+  houseCondition: string;
+  peopleCount: string;
+  lastCleaning: Date | undefined;
+  wasProfessional: boolean;
+  scheduledDate: Date | undefined;
+  scheduledTime: string;
+
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  address: string;
+  aptUnit: string;
+  keyInfo: string;
+  customerNote: string;
+}
+
+const PriceCalculator = ({
+  config = DEFAULT_PRICING_CONFIG,
+}: {
+  config?: PricingConfig;
+}) => {
+  const router = useRouter();
+  const calculatorRef = useRef<HTMLDivElement>(null);
+  // Always start at step 1 on first paint; restore returnToStep after mount via window.location.
+  const [currentStep, setCurrentStep] = useState(1);
+  const [showExtras, setShowExtras] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  /** Sync guard — React state alone can miss rapid double-clicks before re-render. */
+  const isSubmittingRef = useRef(false);
+  const [phoneError, setPhoneError] = useState('');
+  const [formData, setFormData] = useState<FormData>({
+    service: '',
+    squareFootage: '',
+    squareFootageBand: '',
+    bedrooms: '1',
+    bathrooms: '1',
+    excludeAreas: false,
+    excludedAreas: [],
+    extras: [],
+    extraQuantities: {},
+    houseCondition: 'Very clean',
+    peopleCount: '1',
+    lastCleaning: undefined,
+    wasProfessional: false,
+    scheduledDate: undefined,
+    scheduledTime: '',
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    address: '',
+    aptUnit: '',
+    keyInfo: '',
+    customerNote: '',
+  });
+
+  const serviceOptions = [
+    'Maintenance Cleaning',
+    'Deep Cleaning',
+    'Move In / Move Out Cleaning',
+    'Post-construction Cleaning',
+    'Hourly Cleaning'
+  ];
+
+  const frequencyOptions = useMemo(
+    () => config.maintenance.byFrequency.map(row => row.key),
+    [config]
+  );
+
+  /** Quick picks for people who do not know their exact footage; value is the band midpoint. */
+  const SQFT_BANDS = config.sqftBands;
+
+  const bedroomOptions = ['1', '2', '3', '4', '5', '6'];
+
+  const bathroomOptions = ['1', '1.5', '2', '2.5', '3', '3.5', '4', '4.5', '5', '5.5', '6', '6.5', '7', '7.5', '8', '8.5'];
+
+  const areaOptions = ['Bedroom', 'Full Bathroom', 'Kitchen', 'Living/Dining Room'];
+
+  const extraOptions = useMemo(() => config.extras, [config]);
+
+  const conditionOptions = useMemo(
+    () => config.conditionSurcharges.map(option => option.label),
+    [config]
+  );
+
+  const peopleOptions = ['1', '2', '3', '4', '5+'];
+
+  const keyInfoOptions = [
+    'Someone will be at home',
+    'I will hide the keys',
+    'Keep key with provider'
+  ];
+
+  // Phone number formatting and validation functions
+  const formatPhoneNumber = (value: string): string => {
+    // Remove all non-numeric characters
+    const phoneNumber = value.replace(/\D/g, '');
+
+    // Limit to 10 digits
+    const limitedPhoneNumber = phoneNumber.substring(0, 10);
+
+    // Format as (XXX) XXX-XXXX
+    if (limitedPhoneNumber.length >= 6) {
+      return `(${limitedPhoneNumber.substring(0, 3)}) ${limitedPhoneNumber.substring(3, 6)}-${limitedPhoneNumber.substring(6)}`;
+    } else if (limitedPhoneNumber.length >= 3) {
+      return `(${limitedPhoneNumber.substring(0, 3)}) ${limitedPhoneNumber.substring(3)}`;
+    } else if (limitedPhoneNumber.length > 0) {
+      return `(${limitedPhoneNumber}`;
+    }
+    return limitedPhoneNumber;
+  };
+
+  const validatePhoneNumber = (phoneNumber: string): boolean => {
+    // Remove all non-numeric characters and check if it's exactly 10 digits
+    const cleanPhone = phoneNumber.replace(/\D/g, '');
+    return cleanPhone.length === 10;
+  };
+
+  const handlePhoneChange = (value: string, field: 'phone') => {
+    // Extract only numeric characters
+    const numericValue = value.replace(/\D/g, '');
+
+    // Limit to 10 digits
+    if (numericValue.length <= 10) {
+      const formattedValue = formatPhoneNumber(numericValue);
+      updateFormData(field, formattedValue);
+
+      // Validate and set error messages
+      if (numericValue.length > 0 && !validatePhoneNumber(formattedValue)) {
+        setPhoneError('Please enter a valid 10-digit phone number');
+      } else {
+        setPhoneError('');
+      }
+    }
+  };
+
+  const handlePhoneKeyDown = (e: React.KeyboardEvent<HTMLInputElement>, field: 'phone') => {
+    const target = e.target as HTMLInputElement;
+    const currentValue = target.value;
+
+    // Handle backspace and delete keys
+    if (e.key === 'Backspace' || e.key === 'Delete') {
+      const cursorPosition = target.selectionStart || 0;
+
+      // If backspace is pressed and cursor is at a formatting character, move cursor back
+      if (e.key === 'Backspace' && cursorPosition > 0) {
+        const charBeforeCursor = currentValue[cursorPosition - 1];
+        if (charBeforeCursor === '(' || charBeforeCursor === ')' || charBeforeCursor === ' ' || charBeforeCursor === '-') {
+          e.preventDefault();
+          // Find the previous numeric character and remove it
+          const numericValue = currentValue.replace(/\D/g, '');
+          if (numericValue.length > 0) {
+            const newNumericValue = numericValue.slice(0, -1);
+            const newFormattedValue = formatPhoneNumber(newNumericValue);
+            updateFormData(field, newFormattedValue);
+
+            // Update validation
+            if (newNumericValue.length > 0 && !validatePhoneNumber(newFormattedValue)) {
+              setPhoneError('Please enter a valid 10-digit phone number');
+            } else {
+              setPhoneError('');
+            }
+          }
+        }
+      }
+    }
+  };
+
+  const { price: estimatedPrice, maintenancePrice } = useMemo(
+    () => calculateQuote(formData, config),
+    [formData, config]
+  );
+
+  const updateFormData = <K extends keyof FormData>(field: K, value: FormData[K]) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+  };
+
+  const handleArrayToggle = (field: 'excludedAreas', value: string) => {
+    setFormData(prev => ({
+      ...prev,
+      [field]: prev[field].includes(value)
+        ? prev[field].filter(item => item !== value)
+        : [...prev[field], value]
+    }));
+  };
+
+  const handleExtraToggle = (extraName: string) => {
+    setFormData(prev => {
+      const existingExtra = prev.extras.find(extra => extra.name === extraName);
+      if (existingExtra) {
+        // Remove the extra
+        return {
+          ...prev,
+          extras: prev.extras.filter(extra => extra.name !== extraName)
+        };
+      } else {
+        // Add the extra
+        const extraOption = extraOptions.find(opt => opt.name === extraName);
+        const defaultQuantity = extraOption?.hasQuantity ? 1 : undefined;
+        return {
+          ...prev,
+          extras: [...prev.extras, { name: extraName, quantity: defaultQuantity }]
+        };
+      }
+    });
+  };
+
+  const updateExtraQuantity = (extraName: string, quantity: number) => {
+    setFormData(prev => ({
+      ...prev,
+      extras: prev.extras.map(extra =>
+        extra.name === extraName ? { ...extra, quantity } : extra
+      )
+    }));
+  };
+
+  const scrollToCalculatorTop = () => {
+    if (calculatorRef.current) {
+      // Get the calculator container position
+      const rect = calculatorRef.current.getBoundingClientRect();
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+      // Calculate position to include some padding above the progress bar
+      const targetPosition = rect.top + scrollTop - 100; // 100px padding above
+
+      window.scrollTo({
+        top: Math.max(0, targetPosition),
+        behavior: 'smooth'
+      });
+    }
+  };
+
+  // Restore returnToStep from the URL after mount (avoids useSearchParams SSR/client asymmetry).
+  useEffect(() => {
+    const parsed = Number(new URLSearchParams(window.location.search).get('returnToStep'));
+    if (!Number.isFinite(parsed) || parsed <= 0) return;
+    setCurrentStep(parsed);
+    setTimeout(() => {
+      scrollToCalculatorTop();
+    }, 100);
+  }, []);
+
+  const nextStep = () => {
+    if (currentStep < 4) {
+      setCurrentStep(currentStep + 1);
+      // Scroll to top of calculator form after state update
+      setTimeout(() => {
+        scrollToCalculatorTop();
+      }, 100);
+    }
+  };
+
+  const prevStep = () => {
+    if (currentStep > 1) {
+      setCurrentStep(currentStep - 1);
+      // Scroll to top of calculator form after state update
+      setTimeout(() => {
+        scrollToCalculatorTop();
+      }, 100);
+    }
+  };
+
+  const handleSubmit = async () => {
+    // Prevent duplicate bookings from double-clicks / repeated submits.
+    if (isSubmittingRef.current) return;
+    isSubmittingRef.current = true;
+    setIsSubmitting(true);
+
+    const scheduledDateIso = formData.scheduledDate
+      ? formData.scheduledDate.toISOString().split('T')[0]
+      : undefined;
+    const bookingData = {
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      email: formData.email,
+      phone: formData.phone,
+      address: formData.address,
+      aptUnit: formData.aptUnit || undefined,
+      keyInfo: formData.keyInfo,
+      service: formData.service || 'Cleaning Service',
+      squareFootage: formData.squareFootage || '',
+      squareFootageLabel: formData.squareFootageBand
+        ? `${formData.squareFootageBand} sq ft`
+        : undefined,
+      bedrooms: Number(formData.bedrooms),
+      bathrooms: Number(formData.bathrooms),
+      customerNote: formData.customerNote || undefined,
+      houseCondition: formData.houseCondition || undefined,
+      peopleCount: formData.peopleCount || undefined,
+      lastCleaning: formData.lastCleaning
+        ? formData.lastCleaning.toISOString().split('T')[0]
+        : undefined,
+      wasProfessional: formData.lastCleaning ? formData.wasProfessional : undefined,
+      excludedAreas:
+        formData.excludeAreas && formData.excludedAreas.length
+          ? formData.excludedAreas
+          : undefined,
+      maintenancePrice: typeof maintenancePrice === 'number' && maintenancePrice > 0 ? maintenancePrice : undefined,
+      scheduledDate: scheduledDateIso,
+      scheduledTime: formData.scheduledTime || undefined,
+      estimatedPrice: typeof estimatedPrice === 'number' && estimatedPrice > 0 ? estimatedPrice : undefined,
+      frequency: formData.frequency || undefined,
+      extras: formData.extras?.length
+        ? formData.extras.map((extra) => ({
+            name: extra.name,
+            price: extraOptions.find((option) => option.name === extra.name)?.price,
+            quantity: extra.quantity,
+          }))
+        : undefined,
+    };
+    // One id per submit attempt — retries of the same attempt stay idempotent upstream.
+    const bookingId = `BK${Date.now()}`;
+
+    try {
+      await fetch('/api/emails/confirm-booking', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ bookingData, bookingId }),
+      });
+    } catch { }
+    router.push('/booking-success');
+    // Keep submit locked while navigating away so a second click cannot create another booking.
+  };
+
+  const renderStep1 = () => (
+    <div className="space-y-8">
+      <div>
+        <label className="block text-sm font-semibold text-gray-700 mb-4">Choose Your Service</label>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3" data-cy="service-select">
+          {serviceOptions.map(option => (
+            <button
+              key={option}
+              type="button"
+              onClick={() => updateFormData('service', option)}
+              className={`p-4 rounded-xl text-left transition-all duration-200 border-2 ${formData.service === option
+                ? 'border-primary bg-background/50 shadow-md ring-1 ring-primary'
+                : 'border-gray-200 bg-white hover:border-secondary hover:bg-gray-50'
+                }`}
+            >
+              <div className="flex items-center justify-between">
+                <span className={`font-semibold ${formData.service === option ? 'text-primary' : 'text-gray-700'}`}>
+                  {option}
+                </span>
+                <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-colors ${formData.service === option ? 'border-primary bg-primary' : 'border-gray-300'
+                  }`}>
+                  {formData.service === option && <Check className="w-3 h-3 text-white" />}
+                </div>
+              </div>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {formData.service === 'Maintenance Cleaning' && (
+        <div className="animate-in fade-in slide-in-from-top-4 duration-300">
+          <label className="block text-sm font-semibold text-gray-700 mb-4">Frequency</label>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3" data-cy="frequency-select">
+            {frequencyOptions.map(option => (
+              <button
+                key={option}
+                type="button"
+                onClick={() => updateFormData('frequency', option)}
+                className={`p-4 rounded-xl text-center transition-all duration-200 border-2 ${formData.frequency === option
+                  ? 'border-primary bg-background/50 shadow-md ring-1 ring-primary'
+                  : 'border-gray-200 bg-white hover:border-secondary hover:bg-gray-50'
+                  }`}
+              >
+                <div className="flex flex-col items-center gap-2">
+                  <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-colors ${formData.frequency === option ? 'border-primary bg-primary' : 'border-gray-300'
+                    }`}>
+                    {formData.frequency === option && <Check className="w-3 h-3 text-white" />}
+                  </div>
+                  <span className={`font-semibold text-sm ${formData.frequency === option ? 'text-primary' : 'text-gray-700'}`}>
+                    {option}
+                  </span>
+                </div>
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {formData.service === 'Hourly Cleaning' && (
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <label className="block text-sm font-semibold text-gray-700 mb-3">Hours</label>
+            <input
+              type="number"
+              min="0"
+              max="12"
+              value={formData.hours || ''}
+              onChange={(e) => updateFormData('hours', parseInt(e.target.value) || 0)}
+              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-secondary focus:border-secondary"
+              placeholder="0"
+              data-cy="hours-input"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-semibold text-gray-700 mb-3">Minutes</label>
+            <input
+              type="number"
+              min="0"
+              max="59"
+              step="15"
+              value={formData.minutes || ''}
+              onChange={(e) => updateFormData('minutes', parseInt(e.target.value) || 0)}
+              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-secondary focus:border-secondary"
+              placeholder="0"
+              data-cy="minutes-input"
+            />
+          </div>
+        </div>
+      )}
+    </div>
+  );
+
+  const renderStep2 = () => (
+    <div className="space-y-6">
+      <div>
+        <label className="block text-sm font-semibold text-gray-700 mb-3">Total Square Footage</label>
+        <div className="flex flex-wrap gap-2 mb-3" role="radiogroup" aria-label="Square footage range">
+          {SQFT_BANDS.map(band => {
+            const selected = formData.squareFootageBand === band.label;
+            return (
+              <button
+                key={band.label}
+                type="button"
+                role="radio"
+                aria-checked={selected}
+                onClick={() =>
+                  setFormData(prev => ({
+                    ...prev,
+                    squareFootage: String(band.value),
+                    squareFootageBand: band.label,
+                  }))
+                }
+                className={`px-4 h-12 rounded-full font-semibold transition-all duration-200 border-2 ${selected
+                  ? 'bg-primary border-primary text-white'
+                  : 'bg-white border-gray-300 text-gray-700 hover:border-secondary'
+                  }`}
+              >
+                {band.label}
+              </button>
+            );
+          })}
+        </div>
+        <input
+          type="number"
+          value={formData.squareFootage}
+          onChange={(e) =>
+            setFormData(prev => ({
+              ...prev,
+              squareFootage: e.target.value,
+              squareFootageBand: '',
+            }))
+          }
+          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-secondary focus:border-secondary"
+          placeholder="Or enter exact sq ft, e.g. 1500"
+          data-cy="square-footage-input"
+        />
+      </div>
+      <div className="space-y-6">
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-3">Bedrooms</label>
+          <div className="flex flex-wrap gap-2" data-cy="bedrooms-select">
+            {bedroomOptions.map(option => (
+              <button
+                key={option}
+                type="button"
+                onClick={() => updateFormData('bedrooms', option)}
+                className={`w-12 h-12 rounded-full font-semibold transition-all duration-200 border-2 flex items-center justify-center ${formData.bedrooms === option
+                  ? 'border-primary bg-primary text-white shadow-md'
+                  : 'border-gray-200 bg-white text-gray-700 hover:border-secondary hover:bg-background'
+                  }`}
+              >
+                {option}
+              </button>
+            ))}
+          </div>
+        </div>
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-3">Bathrooms</label>
+          <div className="flex flex-wrap gap-2" data-cy="bathrooms-select">
+            {bathroomOptions.map(option => (
+              <button
+                key={option}
+                type="button"
+                onClick={() => updateFormData('bathrooms', option)}
+                className={`px-4 h-12 rounded-full font-semibold transition-all duration-200 border-2 flex items-center justify-center ${formData.bathrooms === option
+                  ? 'border-primary bg-primary text-white shadow-md'
+                  : 'border-gray-200 bg-white text-gray-700 hover:border-secondary hover:bg-background'
+                  }`}
+              >
+                {option}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <label className="flex items-center space-x-3 cursor-pointer">
+          <input
+            type="checkbox"
+            checked={formData.excludeAreas}
+            onChange={(e) => updateFormData('excludeAreas', e.target.checked)}
+            className="w-4 h-4 text-primary rounded"
+            data-cy="exclude-areas-checkbox"
+          />
+          <span className="text-gray-700">I do NOT need my entire home cleaned</span>
+        </label>
+      </div>
+
+      {formData.excludeAreas && (
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-3">Areas to Exclude</label>
+          <div className="grid grid-cols-2 gap-3">
+            {areaOptions.map(area => (
+              <label key={area} className="flex items-center space-x-3 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={formData.excludedAreas.includes(area)}
+                  onChange={() => handleArrayToggle('excludedAreas', area)}
+                  className="w-4 h-4 text-primary rounded"
+                  data-cy={`exclude-area-${area.toLowerCase().replace(/\s+/g, '-').replace(/\//g, '-')}`}
+                />
+                <span className="text-gray-700">{area}</span>
+              </label>
+            ))}
+          </div>
+        </div>
+      )}
+
+      <div>
+        <div className="flex items-center justify-between mb-3">
+          <div>
+            <label className="block text-sm font-semibold text-gray-700">Select Extras</label>
+            <p className="text-sm text-gray-600 mt-1">✨ Enhance your cleaning with our premium extras</p>
+          </div>
+          <button
+            type="button"
+            onClick={() => setShowExtras(!showExtras)}
+            className="flex items-center px-4 py-2 text-sm font-medium text-primary bg-background rounded-lg hover:bg-mist transition-colors"
+            data-cy="toggle-extras-button"
+          >
+            {showExtras ? (
+              <>
+                <ChevronUp className="w-4 h-4 mr-1" />
+                Hide Extras
+              </>
+            ) : (
+              <>
+                <ChevronDown className="w-4 h-4 mr-1" />
+                View Extras
+              </>
+            )}
+          </button>
+        </div>
+
+        {showExtras && (
+          <div className="space-y-3">
+            {extraOptions.map(extra => {
+              const isSelected = formData.extras.some(e => e.name === extra.name);
+              const selectedExtra = formData.extras.find(e => e.name === extra.name);
+
+              return (
+                <div key={extra.name} className="border rounded-lg p-2.5 hover:border-secondary transition-colors">
+                  <div className="flex items-center justify-between">
+                    <label className="flex items-center space-x-3 cursor-pointer flex-1">
+                      <input
+                        type="checkbox"
+                        checked={isSelected}
+                        onChange={() => handleExtraToggle(extra.name)}
+                        className="w-4 h-4 text-primary rounded"
+                        data-cy={`extra-${extra.name.toLowerCase().replace(/\s+/g, '-').replace(/[()]/g, '').replace(/\//g, '-')}`}
+                      />
+                      <span className="text-gray-700 text-sm">{extra.name}</span>
+                    </label>
+                    <span className="text-primary font-semibold text-sm">
+                      ${extra.price}{extra.hasQuantity ? ` per ${extra.unit}` : ''}
+                      {extra.price === 0 ? ' (Free)' : ''}
+                    </span>
+                  </div>
+
+                  {isSelected && extra.hasQuantity && (
+                    <div className="mt-2 flex items-center space-x-2 pl-7">
+                      <label className="text-sm text-gray-600">Qty:</label>
+                      <input
+                        type="number"
+                        min="1"
+                        max="20"
+                        value={selectedExtra?.quantity || 1}
+                        onChange={(e) => updateExtraQuantity(extra.name, parseInt(e.target.value) || 1)}
+                        className="w-16 p-1.5 text-sm border border-gray-300 rounded focus:ring-2 focus:ring-secondary focus:border-secondary"
+                        data-cy={`extra-quantity-${extra.name.toLowerCase().replace(/\s+/g, '-').replace(/[()]/g, '').replace(/\//g, '-')}`}
+                      />
+                      <span className="text-xs text-gray-500">{extra.unit}(s)</span>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+
+  const renderStep3 = () => (
+    <div className="space-y-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            House condition?
+          </label>
+          <select
+            value={formData.houseCondition}
+            onChange={(e) => updateFormData('houseCondition', e.target.value)}
+            className="w-full p-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-secondary focus:border-secondary"
+            data-cy="house-condition-select"
+            aria-label="Select house condition"
+          >
+            {conditionOptions.map(option => (
+              <option key={option} value={option}>{option}</option>
+            ))}
+          </select>
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">How many people live in a house?</label>
+          <select
+            value={formData.peopleCount}
+            onChange={(e) => updateFormData('peopleCount', e.target.value)}
+            className="w-full p-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-secondary focus:border-secondary"
+            data-cy="people-count-select"
+            aria-label="Select number of people"
+          >
+            {peopleOptions.map(option => (
+              <option key={option} value={option}>{option}</option>
+            ))}
+          </select>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">Last cleaning?</label>
+          <DatePicker
+            date={formData.lastCleaning}
+            onDateChange={(date) => updateFormData('lastCleaning', date)}
+            placeholder="Select date"
+            maxDate={new Date()}
+            className="p-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-secondary focus:border-secondary"
+            data-cy="last-cleaning-date"
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">Select date for Service</label>
+          <DatePicker
+            date={formData.scheduledDate}
+            onDateChange={(date) => {
+              updateFormData('scheduledDate', date);
+              if (formData.scheduledTime) {
+                updateFormData('scheduledTime', '');
+              }
+            }}
+            placeholder="Select service date"
+            minDate={new Date()}
+            className="p-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-secondary focus:border-secondary"
+            data-cy="scheduled-date"
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">Was it professional?</label>
+          <select
+            value={formData.wasProfessional ? 'YES' : 'NO'}
+            onChange={(e) => updateFormData('wasProfessional', e.target.value === 'YES')}
+            className="w-full p-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-secondary focus:border-secondary"
+            data-cy="was-professional-select"
+            aria-label="Was the last cleaning professional?"
+          >
+            <option value="NO">NO</option>
+            <option value="YES">YES</option>
+          </select>
+        </div>
+      </div>
+
+      {formData.scheduledDate && (
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">Select Time</label>
+          <TimeSlotPicker
+            selectedTime={formData.scheduledTime}
+            onTimeChange={(time) => updateFormData('scheduledTime', time)}
+            className="mt-1"
+            data-cy="time-slot-picker"
+          />
+        </div>
+      )}
+    </div>
+  );
+
+  const renderStep4 = () => (
+    <div className="space-y-6">
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-3">First Name *</label>
+          <input
+            type="text"
+            value={formData.firstName}
+            onChange={(e) => updateFormData('firstName', e.target.value)}
+            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-secondary focus:border-secondary"
+            required
+            data-cy="first-name-input"
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-3">Last Name *</label>
+          <input
+            type="text"
+            value={formData.lastName}
+            onChange={(e) => updateFormData('lastName', e.target.value)}
+            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-secondary focus:border-secondary"
+            required
+            data-cy="last-name-input"
+          />
+        </div>
+      </div>
+
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-3">Email *</label>
+          <input
+            type="email"
+            value={formData.email}
+            onChange={(e) => updateFormData('email', e.target.value)}
+            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-secondary focus:border-secondary"
+            required
+            data-cy="email-input"
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-3">Phone Number *</label>
+          <input
+            type="tel"
+            inputMode="numeric"
+            pattern="[0-9]*"
+            value={formData.phone}
+            onChange={(e) => handlePhoneChange(e.target.value, 'phone')}
+            onKeyDown={(e) => handlePhoneKeyDown(e, 'phone')}
+            className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-secondary focus:border-secondary ${phoneError ? 'border-red-500' : 'border-gray-300'
+              }`}
+            placeholder="(555) 123-4567"
+            maxLength={14}
+            required
+            data-cy="phone-input"
+          />
+          {phoneError && (
+            <p className="mt-1 text-sm text-red-600">{phoneError}</p>
+          )}
+        </div>
+      </div>
+
+      <div className="grid md:grid-cols-3 gap-4">
+        <div className="md:col-span-2">
+          <label className="block text-sm font-semibold text-gray-700 mb-3">Address *</label>
+          <AddressAutocomplete
+            value={formData.address}
+            onChange={(value) => updateFormData('address', value)}
+            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-secondary focus:border-secondary"
+            placeholder="Start typing your address..."
+            required
+            data-cy="address-input"
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-3">Apt/Unit #</label>
+          <input
+            type="text"
+            value={formData.aptUnit}
+            onChange={(e) => updateFormData('aptUnit', e.target.value)}
+            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-secondary focus:border-secondary"
+            data-cy="apt-unit-input"
+          />
+        </div>
+      </div>
+
+      <div>
+        <label className="block text-sm font-semibold text-gray-700 mb-3">Key Information *</label>
+        <select
+          value={formData.keyInfo}
+          onChange={(e) => updateFormData('keyInfo', e.target.value)}
+          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-secondary focus:border-secondary"
+          required
+          data-cy="key-info-select"
+          aria-label="Select key information"
+        >
+          <option value="">Select key arrangement</option>
+          {keyInfoOptions.map(option => (
+            <option key={option} value={option}>{option}</option>
+          ))}
+        </select>
+      </div>
+
+      <div>
+        <label className="block text-sm font-semibold text-gray-700 mb-3">Customer Note for Provider</label>
+        <textarea
+          value={formData.customerNote}
+          onChange={(e) => updateFormData('customerNote', e.target.value)}
+          rows={4}
+          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-secondary focus:border-secondary"
+          placeholder="Any special instructions or requests..."
+          data-cy="customer-note-textarea"
+        />
+      </div>
+
+      <p className="text-sm text-gray-600 text-center md:text-left">
+        No payment required to book · Pay when your clean is complete
+      </p>
+    </div>
+  );
+
+  const isStepValid = () => {
+    switch (currentStep) {
+      case 1:
+        return formData.service !== '';
+      case 2:
+        return formData.squareFootage !== '';
+      case 3:
+        return formData.scheduledDate !== undefined && formData.scheduledTime !== '';
+      case 4:
+        return formData.firstName !== '' && formData.lastName !== '' && formData.email !== '' && formData.phone !== '' && formData.address !== '' && formData.keyInfo !== '' && validatePhoneNumber(formData.phone);
+      default:
+        return false;
+    }
+  };
+
+  return (
+    <section id="price-calculator" className="pt-0 md:pb-2">
+      <div className="w-full">
+          <div ref={calculatorRef} className="overflow-hidden bg-white">
+            {/* Progress Bar */}
+            <div className="bg-mist/40 p-4 md:p-6 shrink-0 z-10">
+              {/* Overall Progress Bar */}
+              <div className="mb-0 md:mb-6">
+                <div className="hidden md:flex justify-between text-xs text-gray-600 mb-2">
+                  <span>Step {currentStep} of 4</span>
+                  <span>{Math.round((currentStep / 4) * 100)}% Complete</span>
+                </div>
+                <div className="w-full bg-gray-200 rounded-full h-2">
+                  <div
+                    className="bg-primary h-2 rounded-full transition-all duration-300 ease-in-out"
+                    style={{ width: `${(currentStep / 4) * 100}%` }}
+                  ></div>
+                </div>
+              </div>
+
+              {/* Step Indicators - Mobile Compact Version (Replaces Header & Visual Steps) */}
+              <div className="md:hidden flex flex-col gap-3">
+                <div className="flex items-center justify-between">
+                  <span className="font-semibold text-gray-900 text-sm">
+                    Step {currentStep}: {
+                      currentStep === 1 ? 'Service Selection' :
+                        currentStep === 2 ? 'Home Details' :
+                          currentStep === 3 ? 'Schedule' : 'Contact'
+                    }
+                  </span>
+                </div>
+              </div>
+
+              {/* Step Indicators - Desktop Version */}
+              <div className="hidden md:grid md:grid-cols-4 gap-4">
+                {[
+                  { number: 1, title: 'Service Selection', subtitle: 'Choose your service type' },
+                  { number: 2, title: 'Home Details & Extras', subtitle: 'Size, rooms & add-ons' },
+                  { number: 3, title: 'Schedule & Details', subtitle: 'When & house condition' },
+                  { number: 4, title: 'Contact', subtitle: 'Your info to confirm booking' }
+                ].map(step => (
+                  <div key={step.number} className={`text-center p-3 rounded-lg transition-all duration-200 ${step.number === currentStep
+                    ? 'bg-primary text-white shadow-lg'
+                    : step.number < currentStep
+                      ? 'bg-green-100 text-green-800'
+                      : 'bg-white text-gray-600'
+                    }`}>
+                    <div className="flex items-center justify-center mb-2">
+                      <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${step.number === currentStep
+                        ? 'bg-white text-primary'
+                        : step.number < currentStep
+                          ? 'bg-green-600 text-white'
+                          : 'bg-gray-300 text-gray-600'
+                        }`}>
+                        {step.number < currentStep ? <Check className="w-3 h-3" /> : step.number}
+                      </div>
+                    </div>
+                    <h4 className={`text-sm font-semibold mb-1 ${step.number === currentStep ? 'text-white' : ''
+                      }`}>
+                      {step.title}
+                    </h4>
+                    <p className={`text-xs mt-1 ${step.number === currentStep
+                      ? 'text-white/90'
+                      : step.number < currentStep
+                        ? 'text-green-800'
+                        : 'text-gray-600'
+                      }`}>
+                      {step.subtitle}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Form Content */}
+            <div className="p-4 md:p-8">
+              {currentStep === 1 && renderStep1()}
+              {currentStep === 2 && renderStep2()}
+              {currentStep === 3 && renderStep3()}
+              {currentStep === 4 && renderStep4()}
+            </div>
+
+            {/* Bottom Container for Price & Navigation */}
+            <div className="w-full bg-white md:shadow-[0_-8px_30px_rgba(0,0,0,0.12)] border-t border-gray-200 flex flex-col shrink-0 mt-4 rounded-b-2xl">
+
+              {/* Price Estimate - Only show after sufficient information is provided */}
+              {estimatedPrice > 0 && currentStep >= 2 && formData.service && formData.squareFootage && (
+                <div className="bg-background/90 backdrop-blur-md py-2 px-4 md:p-6 border-b border-border">
+                  {formData.service === 'Maintenance Cleaning' && maintenancePrice > 0 ? (
+                    <div className="space-y-1 md:space-y-4">
+                      <h3 className="hidden md:block text-lg font-semibold text-gray-900 text-center mb-4">Maintenance Pricing</h3>
+
+                      <div className="flex flex-row justify-between md:gap-4 items-center">
+                        {/* Initial Cleaning Price */}
+                        <div className="flex-1 md:bg-white md:p-4 md:rounded-lg md:border md:border-border flex flex-col justify-center items-start md:items-center">
+                          <div className="text-left md:text-center text-xs text-gray-600">
+                            <span className="font-semibold text-gray-900 md:font-normal md:text-gray-900">Initial Clean</span>
+                            <span className="hidden md:block">Establish baseline</span>
+                          </div>
+                          <div className="text-lg md:text-2xl font-bold text-primary">
+                            ${estimatedPrice.toFixed(2)}
+                          </div>
+                        </div>
+
+                        <div className="hidden md:block w-px h-12 bg-mist mx-4"></div>
+
+                        {/* Recurring Maintenance Price */}
+                        <div className="flex-1 md:bg-white md:p-4 md:rounded-lg md:border md:border-green-200 flex flex-col justify-center items-end md:items-center">
+                          <div className="text-right md:text-center text-xs text-gray-600">
+                            <span className="font-semibold text-gray-900 md:font-normal md:text-gray-900">Ongoing <span className="md:hidden">({formData.frequency})</span></span>
+                            <span className="hidden md:block text-gray-600">{formData.frequency}</span>
+                          </div>
+                          <div className="text-lg md:text-2xl font-bold text-green-600">
+                            ${maintenancePrice.toFixed(2)}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="flex flex-row justify-between items-center md:block md:text-center">
+                      <div className="flex flex-col">
+                        <span className="text-xs md:text-sm font-medium text-gray-600">Estimated Price</span>
+                        {formData.service === 'Maintenance Cleaning' && !formData.frequency && (
+                          <span className="text-[10px] sm:text-xs text-orange-600">*Select frequency</span>
+                        )}
+                      </div>
+                      <span className="text-xl md:text-3xl font-bold text-primary">${estimatedPrice.toFixed(2)}</span>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Navigation */}
+              <div className="p-3 md:p-6 flex justify-between items-center gap-3">
+                <button
+                  onClick={prevStep}
+                  disabled={currentStep === 1}
+                  className={`flex-1 md:flex-none flex items-center justify-center space-x-1 md:space-x-2 px-4 md:px-6 py-2.5 md:py-3 rounded-lg transition-colors font-medium text-sm md:text-base ${currentStep === 1
+                    ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200 border-gray-200 border'
+                    }`}
+                  data-cy="previous-step-button"
+                >
+                  <ChevronLeft className="w-4 h-4" />
+                  <span>Back</span>
+                </button>
+
+                {currentStep < 4 ? (
+                  <button
+                    onClick={nextStep}
+                    disabled={!isStepValid()}
+                    className={`flex-[2] md:flex-none flex items-center justify-center space-x-1 md:space-x-2 px-4 md:px-6 py-2.5 md:py-3 rounded-lg transition-colors font-semibold shadow-sm text-sm md:text-base ${!isStepValid()
+                      ? 'bg-gray-100 text-gray-400 cursor-not-allowed border border-gray-200'
+                      : 'bg-accent text-white hover:bg-accent/90 hover:shadow-md'
+                      }`}
+                    data-cy="next-step-button"
+                  >
+                    <span>Next</span>
+                    <ChevronRight className="w-4 h-4 relative top-[1px]" />
+                  </button>
+                ) : (
+                  <button
+                    onClick={handleSubmit}
+                    disabled={!isStepValid() || isSubmitting}
+                    className={`flex-[2] md:flex-none flex items-center justify-center space-x-2 px-4 md:px-8 py-2.5 md:py-3 rounded-lg transition-colors font-semibold shadow-sm text-sm md:text-base ${(!isStepValid() || isSubmitting)
+                      ? 'bg-gray-100 text-gray-400 cursor-not-allowed border border-gray-200'
+                      : 'bg-accent text-white hover:bg-accent/90 hover:shadow-md'
+                      }`}
+                    data-cy="submit-button"
+                  >
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="w-5 h-5 animate-spin" />
+                        <span>Processing...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Check className="w-4 h-4 hidden sm:block" />
+                        <span>Book Now</span>
+                      </>
+                    )}
+                  </button>
+                )}
+              </div>
+            </div>
+          </div>
+      </div>
+    </section>
+  );
+};
+
+export default PriceCalculator;
