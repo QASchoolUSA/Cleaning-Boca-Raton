@@ -24,7 +24,7 @@ Copy `.env.example` to `.env.local` and set:
 
 | Variable | Purpose |
 |---|---|
-| `BOOKING_BROOM_URL` | Booking Broom base URL (e.g. `https://bookings.kedrik.com`) |
+| `BOOKING_BROOM_URL` | Optional; defaults to `https://app.bookingbroom.com` (set only for local BB) |
 | `BOOKING_BROOM_API_KEY` | Per-site API key for slug `boca-raton` |
 | `BOOKING_BROOM_SITE_SLUG` | Optional; defaults to `boca-raton` |
 | `NEXT_PUBLIC_SITE_URL` | Production URL (`https://cleaningbocaraton.com`) |
