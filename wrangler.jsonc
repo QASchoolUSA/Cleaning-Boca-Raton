@@ -43,7 +43,6 @@
 		}
 	],
 	"vars": {
-		"BOOKING_BROOM_SITE_SLUG": "boca-raton",
 		"BOOKING_BROOM_API_KEY": "bb_boca-raton_dev_key"
 	}
 }
