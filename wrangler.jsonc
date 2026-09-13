@@ -30,15 +30,7 @@
 	"kv_namespaces": [
 		{
 			"binding": "BOOKING_OUTBOX",
-			// Create with: pnpm exec wrangler kv namespace create BOOKING_OUTBOX
-			// Then paste the id here (and preview_id from create --preview).
 			"id": "a95a196475474eab91e3c0d93be15bd2",
-			"preview_id": "REPLACE_WITH_BOOKING_OUTBOX_KV_PREVIEW_ID",
-			"remote": true
-		},
-		{
-			"binding": "BOOKING_OUTBOX_BOCA_RATON",
-			"id": "7b488c5881274c33b42ac2114399805f",
 			"remote": true
 		}
 	],
