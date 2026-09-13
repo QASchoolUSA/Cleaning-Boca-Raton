@@ -27,13 +27,6 @@
 			"*/5 * * * *"
 		]
 	},
-	"kv_namespaces": [
-		{
-			"binding": "BOOKING_OUTBOX",
-			"id": "a95a196475474eab91e3c0d93be15bd2",
-			"remote": true
-		}
-	],
 	"vars": {
 		"BOOKING_BROOM_API_KEY": "bb_boca-raton_dev_key"
 	}
