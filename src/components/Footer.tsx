@@ -2,7 +2,7 @@
 import { Phone, Mail, MapPin } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { siteFacts } from '@/lib/siteFacts';
+import { hasPhone, siteFacts } from '@/lib/siteFacts';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -62,10 +62,12 @@ const Footer = () => {
           <div>
             <h3 className="mb-5 font-display text-lg">Contact</h3>
             <div className="space-y-4 text-sm text-white/70">
-              <a href={siteFacts.phone.href} className="flex items-center gap-3 hover:text-secondary" data-cy="footer-phone-link">
-                <Phone className="h-4 w-4 text-secondary" />
-                {siteFacts.phone.display}
-              </a>
+              {hasPhone && (
+                <a href={siteFacts.phone.href} className="flex items-center gap-3 hover:text-secondary" data-cy="footer-phone-link">
+                  <Phone className="h-4 w-4 text-secondary" />
+                  {siteFacts.phone.display}
+                </a>
+              )}
               <a href={`mailto:${siteFacts.email}`} className="flex items-center gap-3 hover:text-secondary" data-cy="footer-email-link">
                 <Mail className="h-4 w-4 text-secondary" />
                 {siteFacts.email}

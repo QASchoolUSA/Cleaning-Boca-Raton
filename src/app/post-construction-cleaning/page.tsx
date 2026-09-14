@@ -41,7 +41,6 @@ export default function PostConstructionCleaningPage() {
       name: 'Cleaning Boca Raton',
       url: 'https://cleaningbocaraton.com',
       address: { '@type': 'PostalAddress', addressLocality: 'Boca Raton', addressRegion: 'FL', postalCode: '33432', addressCountry: 'US' },
-      telephone: '(561) 000-0000',
     },
     areaServed: ['Boca Raton, FL', 'Mizner Park, FL', 'Boca West, FL', 'East Boca, FL', 'Spanish River, FL', 'Whisper Walk, FL', 'West Boca, FL', 'Royal Palm Yacht & Country Club, FL'],
     offers: { '@type': 'Offer', url: 'https://cleaningbocaraton.com/booking', priceCurrency: 'USD', availability: 'https://schema.org/InStock' },
@@ -63,7 +62,7 @@ export default function PostConstructionCleaningPage() {
         "name": "How much does post-construction cleaning cost?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Pricing depends on scope, square footage, materials, dust density, and timeline. Typical one-time post-construction visits in Boca Raton start around $250–$600+, with multi-stage projects quoted after a walkthrough. Get a transparent estimate online or call (561) 000-0000."
+          "text": "Pricing depends on scope, square footage, materials, dust density, and timeline. Typical one-time post-construction visits in Boca Raton start around $250–$600+, with multi-stage projects quoted after a walkthrough. Get a transparent estimate online or email hello@cleaningbocaraton.com."
         }
       },
       {
@@ -87,7 +86,7 @@ export default function PostConstructionCleaningPage() {
         "name": "How do quotes and scheduling work?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Pricing depends on scope, square footage, materials, and timeline. Request a transparent quote and schedule online or call (561) 000-0000."
+          "text": "Pricing depends on scope, square footage, materials, and timeline. Request a transparent quote and schedule online or email hello@cleaningbocaraton.com."
         }
       }
     ]
@@ -162,8 +161,8 @@ export default function PostConstructionCleaningPage() {
                   Get Free Quote & Book
                   <ArrowRight className="w-5 h-5 ml-2" />
                 </Link>
-                <a href="tel:321-236-0618" className="inline-flex items-center px-5 py-3 bg-white border border-gray-200 rounded-lg text-gray-800 hover:border-secondary hover:text-primary transition-colors">
-                  Call (561) 000-0000
+                <a href="mailto:hello@cleaningbocaraton.com" className="inline-flex items-center px-5 py-3 bg-white border border-gray-200 rounded-lg text-gray-800 hover:border-secondary hover:text-primary transition-colors">
+                  Email hello@cleaningbocaraton.com
                 </a>
               </div>
               <div className="mt-4 flex items-center text-sm text-gray-600">
@@ -275,7 +274,7 @@ export default function PostConstructionCleaningPage() {
             ))}
           </div>
           <p className="text-gray-600 mt-6">
-            Don’t see your area listed? Call <a href="tel:+15610000000" className="text-primary underline hover:text-primary/80">(561) 000-0000</a> to confirm availability.
+            Don’t see your area listed? Email <a href="mailto:hello@cleaningbocaraton.com" className="text-primary underline hover:text-primary/80">hello@cleaningbocaraton.com</a> to confirm availability.
           </p>
         </div>
       </section>

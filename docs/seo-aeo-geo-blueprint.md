@@ -223,7 +223,6 @@ Implemented in code via `EntityGraphSchema` and homepage `@graph`. Core shape:
       "alternateName": ["Cleaning Boca Raton Services", "Cleaning Boca Raton LLC"],
       "url": "https://cleaningbocaraton.com",
       "logo": "https://cleaningbocaraton.com/boca-raton-cleaning-logo.png",
-      "telephone": "(561) 000-0000",
       "email": "hello@cleaningbocaraton.com",
       "address": {
         "@type": "PostalAddress",
@@ -272,7 +271,7 @@ Implemented in code via `EntityGraphSchema` and homepage `@graph`. Core shape:
       "name": "Cleaning Boca Raton",
       "url": "https://cleaningbocaraton.com",
       "image": "https://cleaningbocaraton.com/boca-raton-cleaning-homepage.webp",
-      "telephone": "(561) 000-0000",
+      "email": "hello@cleaningbocaraton.com",
       "priceRange": "$$",
       "areaServed": [
         { "@type": "City", "name": "Boca Raton", "sameAs": "https://en.wikipedia.org/wiki/Boca Raton,_Florida" },

@@ -20,7 +20,7 @@ export const metadata = {
 
 import Link from "next/link";
 import { CheckCircle, Phone, Mail, Calendar } from "lucide-react";
-import { siteFacts } from "@/lib/siteFacts";
+import { hasPhone, siteFacts } from "@/lib/siteFacts";
 
 export default function FAQPage() {
   const faqs = [
@@ -88,12 +88,12 @@ export default function FAQPage() {
       q: "What are the ways to book cleaning?",
       a: (
         <>
-          You can call {siteFacts.phone.display}, email {siteFacts.email}, or{" "}
+          You can email {siteFacts.email} or{" "}
           <Link href="/booking" className="text-primary hover:text-primary/80 underline">book online</Link> for instant pricing and scheduling.
         </>
       ),
       aText:
-        `You can call ${siteFacts.phone.display}, email ${siteFacts.email}, or book online for instant pricing and scheduling.`,
+        `You can email ${siteFacts.email} or book online for instant pricing and scheduling.`,
     },
     {
       q: "Do you offer a satisfaction guarantee?",
@@ -120,9 +120,9 @@ export default function FAQPage() {
     },
     {
       q: "What is your cancellation policy?",
-      a: "Please provide at least 24 hours notice for cancellations or rescheduling. Late cancellations may be subject to a fee. Contact us by phone or email as soon as your plans change.",
+      a:         "Please provide at least 24 hours notice for cancellations or rescheduling. Late cancellations may be subject to a fee. Contact us by email as soon as your plans change.",
       aText:
-        "Please provide at least 24 hours notice for cancellations or rescheduling. Late cancellations may be subject to a fee. Contact us by phone or email as soon as your plans change.",
+        "Please provide at least 24 hours notice for cancellations or rescheduling. Late cancellations may be subject to a fee. Contact us by email as soon as your plans change.",
     },
   ];
 
@@ -174,9 +174,11 @@ export default function FAQPage() {
           </div>
 
           <div className="max-w-4xl mx-auto mt-10 flex flex-col sm:flex-row gap-4">
-            <a href={siteFacts.phone.href} className="inline-flex items-center gap-2 bg-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-primary transition-colors">
-              <Phone className="w-5 h-5" /> Call {siteFacts.phone.display}
-            </a>
+            {hasPhone && (
+              <a href={siteFacts.phone.href} className="inline-flex items-center gap-2 bg-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-primary transition-colors">
+                <Phone className="w-5 h-5" /> Call {siteFacts.phone.display}
+              </a>
+            )}
             <a href={`mailto:${siteFacts.email}`} className="inline-flex items-center gap-2 border-2 border-primary text-primary px-6 py-3 rounded-lg font-semibold hover:bg-background transition-colors">
               <Mail className="w-5 h-5" /> {siteFacts.email}
             </a>

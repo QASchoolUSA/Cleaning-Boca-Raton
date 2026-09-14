@@ -144,7 +144,7 @@ export default function CommercialCleaningPage() {
                 acceptedAnswer: {
                   '@type': 'Answer',
                   text:
-                    'Request a free custom quote at cleaningbocaraton.com/free-custom-quote or call (561) 000-0000. We tailor pricing to your space size, traffic, and schedule.',
+                    'Request a free custom quote at cleaningbocaraton.com/free-custom-quote or email hello@cleaningbocaraton.com. We tailor pricing to your space size, traffic, and schedule.',
                 },
               },
             ],

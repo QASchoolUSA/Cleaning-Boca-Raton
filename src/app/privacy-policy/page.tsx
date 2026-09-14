@@ -268,8 +268,7 @@ export default function PrivacyPolicyPage() {
               <div className="bg-gray-50 p-4 rounded-lg">
                 <p className="text-gray-700 text-sm">
                   <strong>To exercise any of these rights,</strong> please contact us at
-                  <a href="mailto:hello@cleaningbocaraton.com" className="text-primary underline hover:text-primary/80"> hello@cleaningbocaraton.com</a> or call us at
-                  <a href="tel:321-236-0618" className="text-primary underline hover:text-primary/80"> (561) 000-0000</a>. We will respond to your request within 30 days.
+                  <a href="mailto:hello@cleaningbocaraton.com" className="text-primary underline hover:text-primary/80"> hello@cleaningbocaraton.com</a>. We will respond to your request within 30 days.
                 </p>
               </div>
             </section>

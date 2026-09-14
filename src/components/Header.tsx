@@ -1,9 +1,9 @@
 "use client";
 import { useState, useEffect, useRef } from 'react';
-import { Menu, X, Phone, Calendar, ChevronDown } from 'lucide-react';
+import { Menu, X, Phone, Calendar, ChevronDown, Mail } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { siteFacts } from '@/lib/siteFacts';
+import { hasPhone, siteFacts } from '@/lib/siteFacts';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -113,14 +113,25 @@ const Header = () => {
           </nav>
 
           <div className="hidden items-center gap-4 md:flex">
-            <a
-              href={siteFacts.phone.href}
-              className={`flex items-center gap-2 text-sm font-medium transition-colors ${navText}`}
-              data-cy="desktop-phone-link"
-            >
-              <Phone className="h-4 w-4" />
-              {siteFacts.phone.display}
-            </a>
+            {hasPhone ? (
+              <a
+                href={siteFacts.phone.href}
+                className={`flex items-center gap-2 text-sm font-medium transition-colors ${navText}`}
+                data-cy="desktop-phone-link"
+              >
+                <Phone className="h-4 w-4" />
+                {siteFacts.phone.display}
+              </a>
+            ) : (
+              <a
+                href={`mailto:${siteFacts.email}`}
+                className={`flex items-center gap-2 text-sm font-medium transition-colors ${navText}`}
+                data-cy="desktop-email-link"
+              >
+                <Mail className="h-4 w-4" />
+                Email
+              </a>
+            )}
             <Link href="/booking" className="btn-coral !px-4 !py-2 !text-sm" data-cy="desktop-book-now-button">
               Book
             </Link>
@@ -170,9 +181,15 @@ const Header = () => {
                 <button onClick={() => scrollToSection('contact')} className="cursor-pointer py-2 text-primary" data-cy="mobile-contact-button">Contact</button>
               </div>
 
-              <a href={siteFacts.phone.href} className="btn-ink w-full" data-cy="mobile-call-now-button">
-                <Phone className="h-5 w-5" /> Call Now
-              </a>
+              {hasPhone ? (
+                <a href={siteFacts.phone.href} className="btn-ink w-full" data-cy="mobile-call-now-button">
+                  <Phone className="h-5 w-5" /> Call Now
+                </a>
+              ) : (
+                <a href={`mailto:${siteFacts.email}`} className="btn-ink w-full" data-cy="mobile-email-button">
+                  <Mail className="h-5 w-5" /> Email Us
+                </a>
+              )}
               <Link href="/booking" onClick={() => setIsMenuOpen(false)} className="btn-coral w-full" data-cy="mobile-book-now-button">
                 <Calendar className="h-5 w-5" /> Book Now
               </Link>

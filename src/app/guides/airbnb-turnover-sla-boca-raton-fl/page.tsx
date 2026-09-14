@@ -378,7 +378,7 @@ export default function Page() {
               Airbnb Service Page
             </Link>
           </div>
-          <p className="mt-6 text-slate-400 text-sm">Or call (561) 000-0000</p>
+          <p className="mt-6 text-slate-400 text-sm">Or email hello@cleaningbocaraton.com</p>
         </section>
 
         <AuthorBio description="The Cleaning Boca Raton team supports Airbnb hosts and property managers across Boca Raton and Seminole County with same-day turnover workflows, linen standards, and photo QA." />

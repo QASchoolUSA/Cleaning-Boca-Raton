@@ -1,4 +1,4 @@
-import { siteFacts } from '@/lib/siteFacts';
+import { hasPhone, siteFacts } from '@/lib/siteFacts';
 
 type Props = {
   id?: string;
@@ -28,10 +28,11 @@ export default function LocalBusinessSchema({
   id = `${siteFacts.url}/#localbusiness`,
   name = siteFacts.brandName,
   url = siteFacts.url,
-  telephone = siteFacts.phone.e164,
+  telephone,
   image = 'https://cleaningbocaraton.com/boca-raton-cleaning-homepage.webp',
   priceRange = '$$',
 }: Props) {
+  const resolvedTelephone = telephone ?? (hasPhone ? siteFacts.phone.e164 : undefined);
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'LocalBusiness',
@@ -40,7 +41,7 @@ export default function LocalBusinessSchema({
     legalName: siteFacts.legalName,
     url,
     image,
-    telephone,
+    ...(resolvedTelephone ? { telephone: resolvedTelephone } : {}),
     email: siteFacts.email,
     priceRange,
     geo: {

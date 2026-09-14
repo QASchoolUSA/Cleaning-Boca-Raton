@@ -63,7 +63,7 @@ export default function CarpetCleaningPage() {
         "name": "How is pricing handled and how do I book?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Pricing depends on rooms, square footage, and condition. Get a transparent quote and book online or call (561) 000-0000."
+          "text": "Pricing depends on rooms, square footage, and condition. Get a transparent quote and book online or email hello@cleaningbocaraton.com."
         }
       }
     ]
@@ -106,8 +106,8 @@ export default function CarpetCleaningPage() {
                   Get Free Quote & Book
                   <ArrowRight className="w-5 h-5 ml-2" />
                 </Link>
-                <a href="tel:321-236-0618" className="inline-flex items-center px-5 py-3 bg-white border border-gray-200 rounded-lg text-gray-800 hover:border-secondary hover:text-primary transition-colors">
-                  Call (561) 000-0000
+                <a href="mailto:hello@cleaningbocaraton.com" className="inline-flex items-center px-5 py-3 bg-white border border-gray-200 rounded-lg text-gray-800 hover:border-secondary hover:text-primary transition-colors">
+                  Email hello@cleaningbocaraton.com
                 </a>
               </div>
               <div className="mt-4 flex items-center text-sm text-gray-600">

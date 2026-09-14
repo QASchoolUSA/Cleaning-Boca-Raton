@@ -44,7 +44,7 @@ export default function MoveInMoveOutPage() {
     },
     {
       question: "How do quotes and booking work?",
-      answer: "Request a transparent quote online or call (561) 000-0000. Pricing depends on size, condition, and any add‑ons like inside appliances or cabinets."
+      answer: "Request a transparent quote online or email hello@cleaningbocaraton.com. Pricing depends on size, condition, and any add‑ons like inside appliances or cabinets."
     }
   ];
 
@@ -141,7 +141,7 @@ export default function MoveInMoveOutPage() {
             ],
             tool: [
               { '@type': 'HowToTool', name: 'Online booking form' },
-              { '@type': 'HowToTool', name: 'Phone: (561) 000-0000' },
+              { '@type': 'HowToTool', name: 'Email: hello@cleaningbocaraton.com' },
             ],
             step: [
               {
@@ -185,9 +185,9 @@ export default function MoveInMoveOutPage() {
               <Link href="/booking" className="bg-white text-primary px-8 py-3 rounded-lg font-semibold hover:bg-background transition-colors text-center">
                 Get Free Quote
               </Link>
-              <a href="tel:321-236-0618" className="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-primary transition-colors text-center">
-                Call (561) 000-0000
-              </a>
+              <a href="mailto:hello@cleaningbocaraton.com" className="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-primary transition-colors text-center">
+                  Email hello@cleaningbocaraton.com
+                </a>
             </div>
           </div>
         </div>

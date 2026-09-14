@@ -1,8 +1,8 @@
 export const siteFacts = {
   phone: {
-    display: '(561) 000-0000',
-    e164: '+15610000000',
-    href: 'tel:+15610000000',
+    display: '' as string,
+    e164: '' as string,
+    href: '' as string,
   },
   email: 'hello@cleaningbocaraton.com',
   legalName: 'Cleaning Boca Raton LLC',
@@ -49,5 +49,9 @@ export const siteFacts = {
   ],
   url: 'https://cleaningbocaraton.com',
 } as const;
+
+export const hasPhone = Boolean(
+  siteFacts.phone.display && siteFacts.phone.e164 && siteFacts.phone.href,
+);
 
 export type SiteFacts = typeof siteFacts;

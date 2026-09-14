@@ -101,8 +101,8 @@ export default function OfficeCleaningPage() {
                   Get Free Quote & Book
                   <ArrowRight className="w-5 h-5 ml-2" />
                 </Link>
-                <a href="tel:+15610000000" className="inline-flex items-center px-5 py-3 bg-white border border-gray-200 rounded-lg text-gray-800 hover:border-primary/30 hover:text-primary transition-colors">
-                  Call (561) 000-0000
+                <a href="mailto:hello@cleaningbocaraton.com" className="inline-flex items-center px-5 py-3 bg-white border border-gray-200 rounded-lg text-gray-800 hover:border-primary/30 hover:text-primary transition-colors">
+                  Email hello@cleaningbocaraton.com
                 </a>
               </div>
               <div className="mt-4 flex items-center text-sm text-gray-600">
@@ -154,7 +154,7 @@ export default function OfficeCleaningPage() {
             ))}
           </div>
           <p className="text-gray-600 mt-6">
-            Don’t see your area listed? Call <a href="tel:+15610000000" className="text-primary underline hover:text-primary/80">(561) 000-0000</a> to confirm availability.
+            Don’t see your area listed? Email <a href="mailto:hello@cleaningbocaraton.com" className="text-primary underline hover:text-primary/80">hello@cleaningbocaraton.com</a> to confirm availability.
           </p>
         </div>
       </section>
@@ -247,7 +247,7 @@ export default function OfficeCleaningPage() {
           },
           {
             question: 'How do I get pricing or book service?',
-            answer: 'Get a free quote at cleaningbocaraton.com/custom-quote, book online at cleaningbocaraton.com/booking, or call (561) 000-0000 to discuss your office needs.',
+            answer: 'Get a free quote at cleaningbocaraton.com/custom-quote, book online at cleaningbocaraton.com/booking, or email hello@cleaningbocaraton.com to discuss your office needs.',
           }
         ]}
         className="bg-gray-50 border-t border-gray-100"

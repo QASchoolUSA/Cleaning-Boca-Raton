@@ -1,5 +1,6 @@
 import React from 'react';
 import { Phone, Mail, MapPin, Clock } from 'lucide-react';
+import { hasPhone, siteFacts } from '@/lib/siteFacts';
 
 const ContactInfo = () => {
   return (
@@ -7,18 +8,20 @@ const ContactInfo = () => {
       <div>
         <h3 className="text-2xl font-bold text-gray-900 mb-6">Contact Information</h3>
         <div className="space-y-6">
-          <div className="flex items-start space-x-4">
-            <div className="flex items-center justify-center w-12 h-12 bg-mist rounded-lg">
-              <Phone className="w-6 h-6 text-primary" />
+          {hasPhone && (
+            <div className="flex items-start space-x-4">
+              <div className="flex items-center justify-center w-12 h-12 bg-mist rounded-lg">
+                <Phone className="w-6 h-6 text-primary" />
+              </div>
+              <div>
+                <h4 className="font-semibold text-gray-900">Phone</h4>
+                <p className="text-gray-600">
+                  <a href={siteFacts.phone.href} className="hover:text-primary transition-colors">{siteFacts.phone.display}</a>
+                </p>
+                <p className="text-sm text-gray-500">Available 24/7 for emergencies</p>
+              </div>
             </div>
-            <div>
-              <h4 className="font-semibold text-gray-900">Phone</h4>
-              <p className="text-gray-600">
-                <a href="tel:321-236-0618" className="hover:text-primary transition-colors">(561) 000-0000</a>
-              </p>
-              <p className="text-sm text-gray-500">Available 24/7 for emergencies</p>
-            </div>
-          </div>
+          )}
 
           <div className="flex items-start space-x-4">
             <div className="flex items-center justify-center w-12 h-12 bg-mist rounded-lg">
@@ -27,7 +30,7 @@ const ContactInfo = () => {
             <div>
               <h4 className="font-semibold text-gray-900">Email</h4>
               <p className="text-gray-600">
-                <a href="mailto:hello@cleaningbocaraton.com" className="hover:text-primary transition-colors">hello@cleaningbocaraton.com</a>
+                <a href={`mailto:${siteFacts.email}`} className="hover:text-primary transition-colors">{siteFacts.email}</a>
               </p>
               <p className="text-sm text-gray-500">We&apos;ll respond within 24 hours</p>
             </div>

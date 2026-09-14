@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from 'react';
 import { Send, Briefcase, Calendar } from 'lucide-react';
+import { siteFacts } from '@/lib/siteFacts';
 
 type FormData = {
   firstName: string;
@@ -89,11 +90,11 @@ const GetHiredForm = () => {
       } else {
         const errorData = await response.json().catch(() => ({}));
         console.error('Server error response:', errorData);
-        alert(`❌ Error: ${errorData.error || 'Failed to submit application. Please try again or call us at (561) 000-0000.'}`);
+        alert(`❌ Error: ${errorData.error || `Failed to submit application. Please try again or email us at ${siteFacts.email}.`}`);
       }
     } catch (error) {
       console.error('Network error submitting application:', error);
-      alert('❌ Failed to submit application. Please try again or call us directly at (561) 000-0000.');
+      alert(`❌ Failed to submit application. Please try again or email us directly at ${siteFacts.email}.`);
     } finally {
       setIsSubmitting(false);
     }
@@ -146,7 +147,7 @@ const GetHiredForm = () => {
               onChange={handleInputChange}
               required
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-secondary focus:border-transparent"
-              placeholder="(561) 000-0000"
+              placeholder="Your phone"
               data-cy="get-hired-phone-input"
             />
           </div>

@@ -39,10 +39,7 @@ export default function BookingSuccessPage() {
                 </p>
               </div>
               <p className="text-gray-600 mt-6">
-                Questions? Call{" "}
-                <a href="tel:321-236-0618" className="text-primary underline hover:text-primary/80">(561) 000-0000</a>
-                {" "}or email{" "}
-                <a href="mailto:hello@cleaningbocaraton.com" className="text-primary underline hover:text-primary/80">hello@cleaningbocaraton.com</a>.
+                Questions? Email <a href="mailto:hello@cleaningbocaraton.com" className="text-primary underline hover:text-primary/80">hello@cleaningbocaraton.com</a>.
               </p>
             </div>
           </div>
@@ -53,10 +50,7 @@ export default function BookingSuccessPage() {
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center">
             <p className="text-gray-700">
-              Need to modify your booking or have questions? Call{" "}
-              <a href="tel:321-236-0618" className="text-primary underline hover:text-primary/80">(561) 000-0000</a>
-              {" "}or email{" "}
-              <a href="mailto:hello@cleaningbocaraton.com" className="text-primary underline hover:text-primary/80">hello@cleaningbocaraton.com</a>.
+              Need to modify your booking or have questions? Email <a href="mailto:hello@cleaningbocaraton.com" className="text-primary underline hover:text-primary/80">hello@cleaningbocaraton.com</a>.
             </p>
             <div className="mt-6 flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/booking" className="bg-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-primary transition-colors">Book Another Service</Link>

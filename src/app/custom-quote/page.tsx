@@ -17,7 +17,8 @@ export const metadata = {
 
 import QuoteForm from '@/components/QuoteForm';
 import ContactInfo from '@/components/ContactInfo';
-import { Phone, ArrowRight } from 'lucide-react';
+import { ArrowRight, Mail } from 'lucide-react';
+import { siteFacts } from '@/lib/siteFacts';
 
 export default function CustomQuotePage() {
   return (
@@ -32,11 +33,11 @@ export default function CustomQuotePage() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
-                href="tel:+15610000000"
+                href={`mailto:${siteFacts.email}`}
                 className="bg-white text-primary px-8 py-4 rounded-lg font-semibold hover:bg-background transition-colors inline-flex items-center justify-center"
               >
-                <Phone className="w-5 h-5 mr-2" />
-                Call (561) 000-0000
+                <Mail className="w-5 h-5 mr-2" />
+                Email {siteFacts.email}
               </a>
               <a
                 href="#quote-form"

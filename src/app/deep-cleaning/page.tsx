@@ -114,7 +114,7 @@ export default function DeepCleaningPage() {
         "name": "How do I get pricing and book?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Get an instant, transparent quote and book online, or call (561) 000-0000. Pricing reflects square footage, room count, and requested extras."
+          "text": "Get an instant, transparent quote and book online, or email hello@cleaningbocaraton.com. Pricing reflects square footage, room count, and requested extras."
         }
       }
     ]
@@ -245,8 +245,8 @@ export default function DeepCleaningPage() {
                   Get Free Quote and Book
                   <ArrowRight className="w-5 h-5 ml-2" />
                 </Link>
-                <a href="tel:321-236-0618" className="bg-white text-primary border border-border px-8 py-4 rounded-lg text-lg font-semibold hover:bg-background transition-colors inline-flex items-center justify-center">
-                  Call (561) 000-0000
+                <a href="mailto:hello@cleaningbocaraton.com" className="bg-white text-primary border border-border px-8 py-4 rounded-lg text-lg font-semibold hover:bg-background transition-colors inline-flex items-center justify-center">
+                  Email hello@cleaningbocaraton.com
                 </a>
               </div>
               <div className="flex items-center space-x-6 text-sm text-gray-600">
@@ -579,9 +579,9 @@ export default function DeepCleaningPage() {
                 Get Free Quote
                 <ArrowRight className="w-5 h-5 ml-2" />
               </Link>
-              <a href="tel:321-236-0618" className="border-2 border-primary text-primary px-8 py-4 rounded-lg font-semibold hover:bg-background inline-flex items-center justify-center">
-                Call (561) 000-0000
-              </a>
+              <a href="mailto:hello@cleaningbocaraton.com" className="border-2 border-primary text-primary px-8 py-4 rounded-lg font-semibold hover:bg-background inline-flex items-center justify-center">
+                  Email hello@cleaningbocaraton.com
+                </a>
             </div>
           </div>
         </div>

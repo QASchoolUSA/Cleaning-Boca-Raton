@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from 'react';
 import { Send } from 'lucide-react';
+import { siteFacts } from '@/lib/siteFacts';
 
 const QuoteForm = () => {
   const [formData, setFormData] = useState({
@@ -34,14 +35,14 @@ const QuoteForm = () => {
       } else {
         const errorData = await response.json();
         console.error('Server error response:', errorData);
-        alert(`❌ Error: ${errorData.error || 'Failed to send message. Please try again or call us at (561) 000-0000.'}`);
+        alert(`❌ Error: ${errorData.error || `Failed to send message. Please try again or email us at ${siteFacts.email}.`}`);
       }
     } catch (error) {
       console.error('Network error submitting form:', error);
       if (error instanceof Error && error.name === 'TypeError' && error.message.includes('fetch')) {
-        alert('❌ Connection error. Please check your internet connection and try again, or call us at (561) 000-0000.');
+        alert(`❌ Connection error. Please check your internet connection and try again, or email us at ${siteFacts.email}.`);
       } else {
-        alert('❌ Failed to send message. Please try again or call us directly at (561) 000-0000.');
+        alert(`❌ Failed to send message. Please try again or email us directly at ${siteFacts.email}.`);
       }
     } finally {
       setIsSubmitting(false);
@@ -106,7 +107,7 @@ const QuoteForm = () => {
               value={formData.phone}
               onChange={handleChange}
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-secondary focus:border-transparent"
-              placeholder="(561) 000-0000"
+              placeholder="Your phone"
               data-cy="quote-form-phone-input"
             />
           </div>

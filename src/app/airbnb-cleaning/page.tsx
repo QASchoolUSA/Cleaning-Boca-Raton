@@ -91,7 +91,7 @@ export default function AirbnbCleaningPage() {
                 acceptedAnswer: {
                   '@type': 'Answer',
                   text:
-                    'Book online at cleaningbocaraton.com/booking, text or call (561) 000-0000, or request a custom host quote at cleaningbocaraton.com/custom-quote for multi-unit or frequent turnovers.',
+                    'Book online at cleaningbocaraton.com/booking, email hello@cleaningbocaraton.com, or request a custom host quote at cleaningbocaraton.com/custom-quote for multi-unit or frequent turnovers.',
                 },
               },
             ],
@@ -337,7 +337,6 @@ export default function AirbnbCleaningPage() {
                   <li>
                     Book online: <Link href="/booking" className="text-primary underline">cleaningbocaraton.com/booking</Link>
                   </li>
-                  <li>Call or text: <span className="font-medium">(561) 000-0000</span></li>
                   <li>
                     Email: <a href="mailto:hello@cleaningbocaraton.com" className="text-primary underline">hello@cleaningbocaraton.com</a>
                   </li>

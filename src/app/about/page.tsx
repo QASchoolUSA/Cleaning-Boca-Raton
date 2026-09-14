@@ -2,8 +2,8 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
 import LocalBusinessSchema from '@/components/LocalBusinessSchema';
-import { Shield, Leaf, Clock, Award, Phone, ArrowRight } from 'lucide-react';
-import { siteFacts } from '@/lib/siteFacts';
+import { Shield, Leaf, Clock, Award, Mail, ArrowRight } from 'lucide-react';
+import { hasPhone, siteFacts } from '@/lib/siteFacts';
 
 export const metadata: Metadata = {
   title: 'About Us — Licensed House Cleaners in Boca Raton, FL',
@@ -67,8 +67,8 @@ export default function AboutPage() {
     },
     description:
       'Professional house cleaning, maid service, and commercial cleaning company serving Boca Raton, FL and surrounding communities.',
-    telephone: '(561) 000-0000',
-    email: 'hello@cleaningbocaraton.com',
+    ...(hasPhone ? { telephone: siteFacts.phone.display } : {}),
+    email: siteFacts.email,
     address: {
       '@type': 'PostalAddress',
       addressLocality: 'Boca Raton',
@@ -195,7 +195,7 @@ export default function AboutPage() {
                 .
               </li>
               <li>
-                <strong>Local commitment</strong> — we live and work in this community. When you call (561) 000-0000,
+                <strong>Local commitment</strong> — we live and work in this community. When you email us,
                 you reach a real team — not a call center across the country.
               </li>
             </ul>
@@ -240,10 +240,10 @@ export default function AboutPage() {
               Get a Custom Quote
             </Link>
             <a
-              href="tel:321-236-0618"
+              href={`mailto:${siteFacts.email}`}
               className="inline-flex items-center justify-center gap-2 border-2 border-secondary text-white px-8 py-4 rounded-lg font-semibold hover:bg-primary transition-colors"
             >
-              <Phone className="w-5 h-5" /> (561) 000-0000
+              <Mail className="w-5 h-5" /> {siteFacts.email}
             </a>
           </div>
         </div>

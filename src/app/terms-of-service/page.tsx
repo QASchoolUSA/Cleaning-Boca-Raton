@@ -52,9 +52,6 @@ export default function TermsPage() {
                 <p className="text-gray-700 mb-1">
                   <strong>Contact Email:</strong> <a href="mailto:hello@cleaningbocaraton.com" className="text-primary underline hover:text-primary/80">hello@cleaningbocaraton.com</a>
                 </p>
-                <p className="text-gray-700 mb-1">
-                  <strong>Phone:</strong> <a href="tel:321-236-0618" className="text-primary underline hover:text-primary/80">(561) 000-0000</a>
-                </p>
                 <p className="text-gray-700"><strong>Address:</strong> 3298 Eastgrove Terrace, Boca Raton, FL 33432</p>
               </div>
             </div>

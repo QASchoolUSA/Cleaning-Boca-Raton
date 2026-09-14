@@ -427,7 +427,7 @@ export default function Page() {
               Custom Quote
             </Link>
           </div>
-          <p className="mt-6 text-slate-400 text-sm">Or call (561) 000-0000</p>
+          <p className="mt-6 text-slate-400 text-sm">Or email hello@cleaningbocaraton.com</p>
         </section>
 
         <AuthorBio

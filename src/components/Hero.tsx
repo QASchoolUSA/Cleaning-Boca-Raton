@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { Phone } from 'lucide-react';
-import { siteFacts } from '@/lib/siteFacts';
+import { Mail, Phone } from 'lucide-react';
+import { hasPhone, siteFacts } from '@/lib/siteFacts';
 
 const Hero = () => {
   return (
@@ -45,10 +45,17 @@ const Hero = () => {
             <Link href="/booking" className="btn-coral">
               Book online
             </Link>
-            <a href={siteFacts.phone.href} className="btn-ghost-light">
-              <Phone className="h-5 w-5" />
-              Call {siteFacts.phone.display}
-            </a>
+            {hasPhone ? (
+              <a href={siteFacts.phone.href} className="btn-ghost-light">
+                <Phone className="h-5 w-5" />
+                Call {siteFacts.phone.display}
+              </a>
+            ) : (
+              <a href={`mailto:${siteFacts.email}`} className="btn-ghost-light">
+                <Mail className="h-5 w-5" />
+                Email us
+              </a>
+            )}
             <a
               href="#instant-pricing"
               className="w-full text-sm font-medium text-white/85 underline-offset-4 transition-colors hover:text-white hover:underline sm:w-auto sm:ml-1"

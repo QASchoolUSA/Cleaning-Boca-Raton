@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from 'react';
 import { Phone, Mail, MapPin, Clock, Send } from 'lucide-react';
+import { hasPhone, siteFacts } from '@/lib/siteFacts';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -34,14 +35,14 @@ const Contact = () => {
       } else {
         const errorData = await response.json();
         console.error('Server error response:', errorData);
-        alert(`❌ Error: ${errorData.error || 'Failed to send message. Please try again or call us at (561) 000-0000.'}`);
+        alert(`❌ Error: ${errorData.error || `Failed to send message. Please try again or email us at ${siteFacts.email}.`}`);
       }
     } catch (error) {
       console.error('Network error submitting form:', error);
       if (error instanceof Error && error.name === 'TypeError' && error.message.includes('fetch')) {
-        alert('❌ Connection error. Please check your internet connection and try again, or call us at (561) 000-0000.');
+        alert(`❌ Connection error. Please check your internet connection and try again, or email us at ${siteFacts.email}.`);
       } else {
-        alert('❌ Failed to send message. Please try again or call us directly at (561) 000-0000.');
+        alert(`❌ Failed to send message. Please try again or email us directly at ${siteFacts.email}.`);
       }
     } finally {
       setIsSubmitting(false);
@@ -71,17 +72,19 @@ const Contact = () => {
         <div className="grid gap-14 lg:grid-cols-2 lg:gap-16">
           <div className="space-y-8">
             <div className="space-y-6">
-              <div className="flex items-start gap-4">
-                <div className="flex h-11 w-11 items-center justify-center rounded-full bg-mist">
-                  <Phone className="h-5 w-5 text-secondary" />
+              {hasPhone && (
+                <div className="flex items-start gap-4">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-full bg-mist">
+                    <Phone className="h-5 w-5 text-secondary" />
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-primary">Phone</h4>
+                    <p>
+                      <a href={siteFacts.phone.href} className="text-muted-foreground transition-colors hover:text-secondary" data-cy="contact-phone-link">{siteFacts.phone.display}</a>
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <h4 className="font-semibold text-primary">Phone</h4>
-                  <p>
-                    <a href="tel:+15610000000" className="text-muted-foreground transition-colors hover:text-secondary" data-cy="contact-phone-link">(561) 000-0000</a>
-                  </p>
-                </div>
-              </div>
+              )}
               <div className="flex items-start gap-4">
                 <div className="flex h-11 w-11 items-center justify-center rounded-full bg-mist">
                   <Mail className="h-5 w-5 text-secondary" />
@@ -89,7 +92,7 @@ const Contact = () => {
                 <div>
                   <h4 className="font-semibold text-primary">Email</h4>
                   <p>
-                    <a href="mailto:hello@cleaningbocaraton.com" className="text-muted-foreground transition-colors hover:text-secondary" data-cy="contact-email-link">hello@cleaningbocaraton.com</a>
+                    <a href={`mailto:${siteFacts.email}`} className="text-muted-foreground transition-colors hover:text-secondary" data-cy="contact-email-link">{siteFacts.email}</a>
                   </p>
                 </div>
               </div>
@@ -137,7 +140,7 @@ const Contact = () => {
                   <label htmlFor="phone" className="mb-2 block text-sm font-medium text-primary">Phone</label>
                   <input type="tel" id="phone" name="phone" value={formData.phone} onChange={handleChange}
                     className="w-full rounded-md border border-border px-4 py-3 focus:border-secondary focus:outline-none focus:ring-2 focus:ring-secondary"
-                    placeholder="(561) 000-0000" data-cy="contact-form-phone-input" />
+                    placeholder="Your phone" data-cy="contact-form-phone-input" />
                 </div>
                 <div>
                   <label htmlFor="service" className="mb-2 block text-sm font-medium text-primary">Service type</label>

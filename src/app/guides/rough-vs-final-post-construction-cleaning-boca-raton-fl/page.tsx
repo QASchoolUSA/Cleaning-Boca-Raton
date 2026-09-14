@@ -375,7 +375,7 @@ export default function Page() {
               Post-Construction Service
             </Link>
           </div>
-          <p className="mt-6 text-slate-400 text-sm">Or call (561) 000-0000</p>
+          <p className="mt-6 text-slate-400 text-sm">Or email hello@cleaningbocaraton.com</p>
         </section>
 
         <AuthorBio description="The Cleaning Boca Raton team supports contractors and homeowners across Boca Raton and Palm Beach County with staged post-construction cleaning—rough passes for active sites and final HEPA cleans for occupancy handoff." />

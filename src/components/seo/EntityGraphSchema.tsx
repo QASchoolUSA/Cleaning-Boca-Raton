@@ -1,3 +1,5 @@
+import { hasPhone, siteFacts } from '@/lib/siteFacts';
+
 type Props = {
   includeProfessionalService?: boolean;
   includeSearchAction?: boolean;
@@ -70,8 +72,8 @@ export default function EntityGraphSchema({
     image: 'https://cleaningbocaraton.com/boca-raton-cleaning-homepage.webp',
     description:
       'Professional house cleaning, apartment cleaning, move-out cleaning, Airbnb cleaning, commercial cleaning, and post-construction cleaning in Boca Raton, FL.',
-    telephone: '(561) 000-0000',
-    email: 'hello@cleaningbocaraton.com',
+    ...(hasPhone ? { telephone: siteFacts.phone.display } : {}),
+    email: siteFacts.email,
     address: {
       '@type': 'PostalAddress',
       addressLocality: 'Boca Raton',
@@ -127,7 +129,7 @@ export default function EntityGraphSchema({
     name: 'Cleaning Boca Raton',
     url: 'https://cleaningbocaraton.com',
     image: 'https://cleaningbocaraton.com/boca-raton-cleaning-homepage.webp',
-    telephone: '(561) 000-0000',
+    ...(hasPhone ? { telephone: siteFacts.phone.display } : {}),
     priceRange: '$$',
     description:
       'Bonded and insured cleaning company offering house cleaning, apartment cleaning, turnover cleaning, move-out cleaning, post-construction cleaning, Airbnb cleaning, commercial cleaning, office cleaning, and restaurant cleaning in Boca Raton, FL.',

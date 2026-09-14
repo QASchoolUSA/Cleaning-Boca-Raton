@@ -3,7 +3,7 @@ import LocalBusinessSchema from "@/components/LocalBusinessSchema";
 import ServiceAreas from "@/components/ServiceAreas";
 import AuthorBio from "@/components/AuthorBio";
 import SpecialOffers from "@/components/SpecialOffers";
-import { Sparkles, Droplets, CheckCircle, Phone, ArrowRight, Shield, Clock, MapPin, Eraser, Home } from "lucide-react";
+import { Sparkles, Droplets, CheckCircle, Mail, ArrowRight, Shield, Clock, MapPin, Eraser, Home } from "lucide-react";
 
 export const metadata = {
   title: "Pressure Washing in Boca Raton, FL | Cleaning Boca Raton",
@@ -80,7 +80,7 @@ export default function PressureWashingPage() {
         "name": "How do pricing and scheduling work?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Pricing depends on area size, material, and condition. Request a quote and book online or call (561) 000-0000 for assistance."
+          "text": "Pricing depends on area size, material, and condition. Request a quote and book online or email hello@cleaningbocaraton.com for assistance."
         }
       }
     ]
@@ -126,7 +126,7 @@ export default function PressureWashingPage() {
                 </Link>
               </div>
               <div className="mt-4 text-sm text-gray-600 flex items-center">
-                <Phone className="w-4 h-4 mr-2" /> Call Cleaning Boca Raton: <a href="tel:321-236-0618" className="ml-1 hover:text-primary transition-colors" data-cy="pressure-phone-link">(561) 000-0000</a>
+                <Mail className="w-4 h-4 mr-2" /> Email: <a href="mailto:hello@cleaningbocaraton.com" className="ml-1 hover:text-primary transition-colors">hello@cleaningbocaraton.com</a>
               </div>
             </div>
             <div className="bg-gray-100 rounded-lg p-6 border">

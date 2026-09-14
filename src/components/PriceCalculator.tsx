@@ -410,14 +410,14 @@ const PriceCalculator = ({
       });
       if (!response.ok) {
         const data = (await response.json().catch(() => ({}))) as { error?: string };
-        setSubmitError(data.error || 'Could not submit booking. Please try again or call us.');
+        setSubmitError(data.error || 'Could not submit booking. Please try again or email us.');
         isSubmittingRef.current = false;
         setIsSubmitting(false);
         return;
       }
       router.push('/booking-success');
     } catch {
-      setSubmitError('Could not submit booking. Please try again or call us.');
+      setSubmitError('Could not submit booking. Please try again or email us.');
       isSubmittingRef.current = false;
       setIsSubmitting(false);
     }

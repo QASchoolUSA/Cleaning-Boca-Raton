@@ -81,9 +81,9 @@ export default function ApartmentCleaningPage() {
                                     Get Free Quote
                                     <ArrowRight className="w-5 h-5 ml-2" />
                                 </Link>
-                                <a href="tel:321-236-0618" className="bg-white text-primary border border-border px-8 py-4 rounded-lg text-lg font-semibold hover:bg-background transition-colors inline-flex items-center justify-center">
-                                    Call (561) 000-0000
-                                </a>
+                                <a href="mailto:hello@cleaningbocaraton.com" className="bg-white text-primary border border-border px-8 py-4 rounded-lg text-lg font-semibold hover:bg-background transition-colors inline-flex items-center justify-center">
+                  Email hello@cleaningbocaraton.com
+                </a>
                             </div>
                         </div>
                         <div className="relative h-64 md:h-96 w-full rounded-2xl overflow-hidden shadow-xl">

@@ -5,7 +5,7 @@ import ServiceSchema from "@/components/ServiceSchema";
 import AuthorBio from "@/components/AuthorBio";
 import SpecialOffers from "@/components/SpecialOffers";
 import ConversationalFAQ from "@/components/ConversationalFAQ";
-import { Sparkles, ScanLine, CheckCircle, Phone, ArrowRight, Shield, Clock, MapPin, Sun, Wind } from "lucide-react";
+import { Sparkles, ScanLine, CheckCircle, Mail, ArrowRight, Shield, Clock, MapPin, Sun, Wind } from "lucide-react";
 
 export const metadata = {
   title: "Window Cleaning in Boca Raton, FL | Streak-Free Results",
@@ -56,7 +56,7 @@ export default function WindowCleaningPage() {
     },
     {
       question: "How long does it take and how is pricing handled?",
-      answer: "Timing depends on window count, access, and add‑ons like tracks/screens. Get transparent pricing via our online quote or by calling (561) 000-0000."
+      answer: "Timing depends on window count, access, and add‑ons like tracks/screens. Get transparent pricing via our online quote or by emailing hello@cleaningbocaraton.com."
     }
   ];
 
@@ -117,10 +117,7 @@ export default function WindowCleaningPage() {
                 </Link>
               </div>
               <div className="mt-4 text-sm text-gray-600 flex items-center">
-                <Phone className="w-4 h-4 mr-2" /> Call Cleaning Boca Raton:
-                <a href="tel:321-236-0618" className="ml-1 hover:text-primary transition-colors" data-cy="windows-phone-link">
-                  (561) 000-0000
-                </a>
+                <Mail className="w-4 h-4 mr-2" /> Email: <a href="mailto:hello@cleaningbocaraton.com" className="ml-1 hover:text-primary transition-colors">hello@cleaningbocaraton.com</a>
               </div>
             </div>
             <div className="bg-gray-100 rounded-lg p-6 border">
@@ -226,7 +223,7 @@ export default function WindowCleaningPage() {
             <Link href="/pressure-washing" className="text-primary underline hover:text-primary/80"> pressure washing</Link>, we recommend scheduling your window cleaning right after to eliminate any residue and ensure a consistent shine throughout the property.
           </p>
           <p>
-            Our team provides flexible scheduling and clear pricing. Call <a href="tel:321-236-0618" className="text-primary underline hover:text-primary/80">(561) 000-0000</a> to discuss your Boca Raton FL property, or
+            Our team provides flexible scheduling and clear pricing. Email <a href="mailto:hello@cleaningbocaraton.com" className="text-primary underline hover:text-primary/80">hello@cleaningbocaraton.com</a> to discuss your Boca Raton FL property, or
             <Link href="/custom-quote" className="text-primary underline hover:text-primary/80"> request a custom quote</Link>. We can bundle pressure washing and window cleaning for a seamless, full-service experience.
           </p>
         </div>

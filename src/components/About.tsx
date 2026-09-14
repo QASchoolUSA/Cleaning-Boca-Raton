@@ -52,10 +52,10 @@ const About = ({ asPage = false }: AboutProps) => {
             </p>
             <p className="leading-relaxed text-muted-foreground">
               Legally operating as {siteFacts.legalName}, we provide residential and commercial cleaning across Boca Raton.
-              {' '}{siteFacts.pricing.messages.full} Call{' '}
-              <a href={siteFacts.phone.href} className="font-medium text-secondary hover:underline">{siteFacts.phone.display}</a>
-              {' '}or email{' '}
-              <a href={`mailto:${siteFacts.email}`} className="font-medium text-secondary hover:underline">{siteFacts.email}</a>.
+              {' '}{siteFacts.pricing.messages.full}{' '}
+              Email{' '}
+              <a href={`mailto:${siteFacts.email}`} className="font-medium text-secondary hover:underline">{siteFacts.email}</a>
+              {' '}or book online.
             </p>
             {!asPage && (
               <Link href="/about" className="inline-flex items-center font-semibold text-accent transition-colors hover:text-accent/80">
